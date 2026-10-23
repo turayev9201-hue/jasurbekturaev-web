@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>Jasurbek Turayev | Raqamli Me'mor</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+    <!-- Three.js 3D kutubxonasi -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <style>
+        :root {
+            --bg-color: #02050f;
+            --text-main: #ffffff;
+            --text-muted: #64748b;
+            --neon-cyan: #00f3ff;
+            --neon-purple: #bc13fe;
+            --glass-bg: rgba(10, 20, 40, 0.5);
+            --glass-border: rgba(0, 243, 255, 0.2);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; overflow-x: hidden; }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+            cursor: none; 
+        }
+
+        h1, h2, h3, .logo-text { font-family: 'Syne', sans-serif; text-wrap: balance; }
+
+        /* Kursor */
+        .cursor {
+            position: fixed; top: 0; left: 0; width: 20px; height: 20px;
+            border: 1.5px solid var(--neon-cyan); border-radius: 50%;
+            pointer-events: none; z-index: 9999;
+            transform: translate(-50%, -50%); transition: width 0.2s, height 0.2s;
+            box-shadow: 0 0 10px var(--neon-cyan);
+        }
+        .cursor-dot {
+            position: fixed; top: 0; left: 0; width: 4px; height: 4px;
+            background: var(--neon-cyan); border-radius: 50%; pointer-events: none; z-index: 10000;
+            transform: translate(-50%, -50%); box-shadow: 0 0 10px var(--neon-cyan);
+        }
+
+        /* Matrix fon */
+        #matrix-canvas {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -4;
+            opacity: 0.4;
+        }
+
+        /* 3D Inson yuzi uchun konteyner */
+        #3d-container {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            z-index: -1; pointer-events: none;
+            display: flex; justify-content: center; align-items: center;
+        }
+
+        /* Navbar */
+        nav {
+            position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
+            width: calc(100% - 40px); max-width: 1200px; z-index: 1000;
+            background: rgba(2, 5, 15, 0.6); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border); border-radius: 50px;
+            padding: 10px 20px; display: flex; justify-content: space-between; align-items: center;
+            box-shadow: 0 0 20px rgba(0, 243, 255, 0.1);
+        }
+        .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; color: #fff; }
+        .logo-box {
+            width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, var(--neon-cyan), var(--neon-purple));
+            display: flex; justify-content: center; align-items: center; font-weight: 800; font-size: 14px;
+            box-shadow: 0 0 15px var(--neon-cyan);
+        }
+        .logo-text { font-size: 16px; font-weight: 700; text-shadow: 0 0 10px rgba(255,255,255,0.3); }
+        .nav-links { display: none; gap: 30px; }
+        .nav-links a { color: var(--text-muted); text-decoration: none; font-size: 14px; font-weight: 500; transition: 0.3s; }
+        .nav-links a:hover { color: var(--neon-cyan); text-shadow: 0 0 10px var(--neon-cyan); }
+        
+        .btn-contact {
+            background: transparent; color: var(--neon-cyan); padding: 10px 20px; border-radius: 50px;
+            text-decoration: none; font-weight: 700; font-size: 14px; transition: all 0.3s ease;
+            border: 1px solid var(--neon-cyan); box-shadow: inset 0 0 10px rgba(0, 243, 255, 0.1);
+        }
+        .btn-contact:hover { background: var(--neon-cyan); color: #000; box-shadow: 0 0 20px var(--neon-cyan); }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center;
+            text-align: center; padding: 0 20px; position: relative; z-index: 1;
+        }
+        
+        /* Yuz orqasidagi matn effekti */
+        .hero h1 {
+            font-size: clamp(40px, 10vw, 120px); font-weight: 800; line-height: 1;
+            letter-spacing: -2px; text-transform: uppercase;
+            text-shadow: 0 0 40px rgba(0, 243, 255, 0.3);
+            margin-bottom: 20px; pointer-events: none;
+        }
+        .hero h1 .outline {
+            color: transparent; -webkit-text-stroke: 1.5px var(--neon-cyan);
+            text-shadow: 0 0 30px rgba(0, 243, 255, 0.6);
+        }
+        
+        .hero p {
+            font-size: clamp(14px, 2vw, 18px); color: #cbd5e1;
+            max-width: 600px; margin: 0 auto 40px; font-weight: 400;
+            background: rgba(2, 5, 15, 0.6); padding: 10px 20px; border-radius: 20px; backdrop-filter: blur(10px);
+        }
+
+        /* Tugmalar */
+        .hero-btns { display: flex; flex-direction: column; gap: 15px; width: 100%; max-width: 400px; z-index: 10; }
+        .btn-primary, .btn-secondary {
+            padding: 18px 30px; border-radius: 50px; font-size: 16px; font-weight: 700;
+            text-decoration: none; display: flex; justify-content: center; align-items: center; gap: 10px;
+            transition: all 0.3s ease; text-transform: uppercase; letter-spacing: 1px;
+            backdrop-filter: blur(10px);
+        }
+        .btn-primary { background: var(--neon-cyan); color: #000; box-shadow: 0 0 30px rgba(0, 243, 255, 0.5); border: 1px solid var(--neon-cyan); }
+        .btn-primary:hover { background: #fff; transform: scale(1.05); box-shadow: 0 0 50px var(--neon-cyan); }
+        .btn-secondary { background: rgba(2, 5, 15, 0.5); color: #fff; border-color: var(--glass-border); }
+        .btn-secondary:hover { background: rgba(0, 243, 255, 0.1); border-color: var(--neon-cyan); transform: scale(1.05); }
+
+        /* Shisha Panellar (Bo'limlar) */
+        .section-wrap { 
+            width: calc(100% - 40px); max-width: 1200px; margin: 0 auto 60px; padding: 60px 20px; 
+            position: relative; z-index: 1; 
+            background: rgba(5, 10, 20, 0.7); backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border); border-radius: 30px;
+            box-shadow: 0 0 40px rgba(0, 0, 0, 0.8), inset 0 0 20px rgba(0, 243, 255, 0.05);
+        }
+        
+        .section-title { font-size: clamp(28px, 5vw, 50px); font-weight: 800; margin-bottom: 15px; text-transform: uppercase; color: #fff; text-shadow: 0 0 20px rgba(0, 243, 255, 0.3); }
+        
+        /* Men haqimda */
+        .about-grid { display: grid; grid-template-columns: 1fr; gap: 30px; align-items: center; }
+        .about-visual {
+            width: 100%; max-width: 300px; aspect-ratio: 1; border-radius: 30px; background: rgba(0,0,0,0.5);
+            border: 1px solid var(--glass-border); display: flex; justify-content: center; align-items: center;
+            font-size: 80px; font-weight: 800; font-family: 'Syne', sans-serif; position: relative;
+            box-shadow: 0 0 40px rgba(0, 243, 255, 0.1); margin: 0 auto;
+        }
+        .about-text p { color: #cbd5e1; font-size: 16px; margin-bottom: 25px; }
+        .tech-stack { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+        .tech-item { background: rgba(0, 243, 255, 0.05); border: 1px solid var(--glass-border); padding: 8px 18px; border-radius: 50px; font-size: 14px; font-weight: 600; color: var(--neon-cyan); }
+
+        /* Loyihalar (Bento Grid) */
+        .bento-grid { display: grid; grid-template-columns: 1fr; gap: 20px; margin-top: 40px; }
+        .project-card {
+            background: rgba(0, 0, 0, 0.4); border: 1px solid var(--glass-border); border-radius: 24px;
+            padding: 30px; display: flex; flex-direction: column; position: relative; overflow: hidden;
+            backdrop-filter: blur(20px); transition: all 0.3s;
+        }
+        .project-card:hover { border-color: var(--neon-cyan); box-shadow: 0 0 30px rgba(0, 243, 255, 0.15); transform: translateY(-5px); }
+        
+        .proj-icon { font-size: 40px; margin-bottom: 15px; filter: drop-shadow(0 0 10px rgba(0,243,255,0.5)); }
+        .proj-title { font-size: 24px; font-weight: 800; margin-bottom: 10px; color: #fff; }
+        .proj-desc { color: var(--text-muted); font-size: 15px; margin-bottom: 25px; flex-grow: 1; }
+        .proj-btn {
+            background: transparent; color: var(--neon-cyan); padding: 12px 24px; border-radius: 12px;
+            text-decoration: none; font-weight: 700; font-size: 14px; display: inline-flex;
+            align-items: center; gap: 8px; align-self: flex-start; transition: 0.3s; border: 1px solid var(--neon-cyan);
+        }
+        .proj-btn:hover { background: var(--neon-cyan); color: #000; box-shadow: 0 0 20px var(--neon-cyan); }
+
+        /* CTA */
+        .cta-section { 
+            padding: 80px 20px; text-align: center; position: relative; z-index: 1; 
+            width: calc(100% - 40px); max-width: 1200px; margin: 0 auto 60px;
+            background: linear-gradient(135deg, rgba(0, 243, 255, 0.1), rgba(188, 19, 254, 0.1));
+            border: 1px solid var(--glass-border); border-radius: 30px; backdrop-filter: blur(20px);
+        }
+        .cta-section h2 { font-size: clamp(28px, 6vw, 56px); font-weight: 800; margin-bottom: 20px; text-transform: uppercase; color: #fff; }
+        .btn-cta {
+            background: linear-gradient(135deg, var(--neon-cyan), var(--neon-purple)); color: #fff;
+            padding: 18px 45px; border-radius: 50px; font-size: 18px; font-weight: 800;
+            text-decoration: none; display: inline-flex; align-items: center; gap: 10px;
+            box-shadow: 0 0 30px rgba(0, 243, 255, 0.4); transition: 0.3s; text-transform: uppercase;
+        }
+        .btn-cta:hover { transform: translateY(-5px); box-shadow: 0 0 50px rgba(188, 19, 254, 0.6); }
+
+        footer { padding: 30px 20px; text-align: center; color: var(--text-muted); font-size: 14px; position: relative; z-index: 1; border-top: 1px solid var(--glass-border); }
+
+        /* Responsive */
+        @media (min-width: 768px) {
+            .nav-links { display: flex; }
+            .hero-btns { flex-direction: row; justify-content: center; max-width: none; }
+            .bento-grid { grid-template-columns: repeat(2, 1fr); }
+            .project-card:nth-child(1) { grid-column: span 2; }
+            .project-card:nth-child(4) { grid-column: span 2; }
+            .about-grid { grid-template-columns: 1fr 1.5fr; gap: 50px; }
+            .tech-stack { justify-content: flex-start; }
+            .section-wrap { width: calc(100% - 80px); padding: 80px 50px; }
+            .cta-section { width: calc(100% - 80px); padding: 100px 50px; }
+        }
+        @media (min-width: 1024px) {
+            .bento-grid { grid-template-columns: repeat(3, 1fr); }
+            .project-card:nth-child(1) { grid-column: span 2; }
+            .project-card:nth-child(2) { grid-column: span 1; }
+            .project-card:nth-child(3) { grid-column: span 1; }
+            .project-card:nth-child(4) { grid-column: span 1; }
+            .project-card:nth-child(5) { grid-column: span 1; }
+        }
+        @media (max-width: 768px) {
+            body { cursor: auto; }
+            .cursor, .cursor-dot { display: none; }
+            .hero h1 { font-size: clamp(36px, 12vw, 60px); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="cursor"></div>
+    <div class="cursor-dot"></div>
+
+    <!-- Orqa fon Matrix -->
+    <canvas id="matrix-canvas"></canvas>
+    
+    <!-- 3D Inson Yuzi -->
+    <div id="3d-container"></div>
+
+    <!-- NAVBAR -->
+    <nav>
+        <a href="#" class="logo">
+            <div class="logo-box">JT</div>
+            <div class="logo-text">Jasurbek</div>
+        </a>
+        <div class="nav-links">
+            <a href="#about">Men haqimda</a>
+            <a href="#projects">Loyihalar</a>
+            <a href="#contact">Aloqa</a>
+        </div>
+        <a href="https://t.me/Asoschi_JT" class="btn-contact" target="_blank">Bog'lanish</a>
+    </nav>
+
+    <!-- HERO (3D Yuz ortida matn) -->
+    <header class="hero">
+        <h1>
+            RAQAMLI <br> <span class="outline">ME'MOR</span>
+        </h1>
+        <p>Men Jasurbek Turayev. Sun'iy intellekt va Telegram botlari orqali biznesingizni kelajakka olib chiqaman. G'oyalarni avtomatlashtirilgan haqiqatga aylantiraman.</p>
+        
+        <div class="hero-btns">
+            <a href="https://t.me/Asoschi_JT" class="btn-primary" target="_blank">Loyihani boshlash</a>
+            <a href="#projects" class="btn-secondary">Loyihalarimni ko'rish</a>
+        </div>
+    </header>
+
+    <!-- MEN HAQIMDA -->
+    <section class="section-wrap" id="about">
+        <div class="about-grid">
+            <div class="about-visual">
+                <span style="background: linear-gradient(135deg, #00f3ff, #bc13fe); -webkit-background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 0 20px rgba(0,243,255,0.4));">JT</span>
+            </div>
+            <div class="about-text">
+                <h2 class="section-title">Men haqimda</h2>
+                <p>Men oddiy dasturchi emasman. Men sizning biznesingizni 24/7 ishlaydigan avtonom tizimga aylantiruvchi raqamli me'morman. Telegram botlar, Mini Ilovalar va Sun'iy Intellekt integratsiyasi orqali mijozlaringizga eng qulay xizmatni yarataman.</p>
+                <div class="tech-stack">
+                    <span class="tech-item">Python</span>
+                    <span class="tech-item">Aiogram</span>
+                    <span class="tech-item">DeepSeek AI</span>
+                    <span class="tech-item">Docker</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MENING LOYIHALARIM -->
+    <section class="section-wrap" id="projects">
+        <h2 class="section-title" style="text-align: center;">Mening loyihalarim</h2>
+        <p style="text-align: center; color: #cbd5e1; margin-bottom: 40px;">Men yaratgan va hozirda minglab insonlar foydalanayotgan tizimlar.</p>
+        
+        <div class="bento-grid">
+            <div class="project-card">
+                <div class="proj-icon">🤖</div>
+                <h3 class="proj-title">MILLIY AI</h3>
+                <p class="proj-desc">O'zbek tilidagi eng ilg'or sun'iy intellekt. Kod yozish, matn yaratish va murakkab savollarga o'ylab javob berish uchun shaxsiy yordamchingiz.</p>
+                <a href="https://t.me/Milliy_Ai_uzbot" class="proj-btn" target="_blank">Sinab ko'rish ↗</a>
+            </div>
+
+            <div class="project-card">
+                <div class="proj-icon">🛡️</div>
+                <h3 class="proj-title">JT VPN</h3>
+                <p class="proj-desc">Tezkor, xavfsiz va cheklovlarsiz internet. WireGuard protokoli orqali ishlaydigan premium VPN xizmati.</p>
+                <a href="https://t.me/JT_VPN_BOT" class="proj-btn" target="_blank">Ulanish ↗</a>
+            </div>
+
+            <div class="project-card">
+                <div class="proj-icon">🎓</div>
+                <h3 class="proj-title">JT Akademiya</h3>
+                <p class="proj-desc">AI yordamida sayt va botlar yaratishni o'rgatuvchi yopiq darslik. Kelajak kasbini egallang.</p>
+                <a href="https://t.me/JT_AKADEMIYA" class="proj-btn" target="_blank">O'rganish ↗</a>
+            </div>
+
+            <div class="project-card">
+                <div class="proj-icon">🚗</div>
+                <h3 class="proj-title">Avto Savdo Uz</h3>
+                <p class="proj-desc">Mashina e'lonlari bozori. Mahalliy va inomarka avtomobillari bo'yicha qulay qidiruv va e'lon berish tizimi.</p>
+                <a href="https://t.me/Avto_Savdo_UzBot" class="proj-btn" target="_blank">Ko'rish ↗</a>
+            </div>
+
+            <div class="project-card">
+                <div class="proj-icon">🧠</div>
+                <h3 class="proj-title">Minni Yordamchi</h3>
+                <p class="proj-desc">Har kuni kerak bo'ladigan vositalar (Valyuta, hujjat, o'yinlar) jamlangan aqlli Mini App.</p>
+                <a href="https://t.me/Minni_Yordamchi_Bot" class="proj-btn" target="_blank">Foydalanish ↗</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section" id="contact">
+        <h2>G'oyangiz bormi?</h2>
+        <p style="color: #cbd5e1; margin-bottom: 30px;">Uni birgalikda raqamli oltin koniga aylantiramiz. Menga yozing.</p>
+        <a href="https://t.me/Asoschi_JT" class="btn-cta" target="_blank">Telegram'da yozish</a>
+    </section>
+
+    <footer>
+        <p>© 2026 Jasurbek Turayev. Barcha huquqlar himoyalangan.</p>
+    </footer>
+
+    <!-- =========================================
+         JAVASCRIPT (Mukammal 3D Particle Face)
+         ========================================= -->
+    <script>
+        // 1. Maxsus kursor
+        if (window.innerWidth > 768) {
+            const cursor = document.querySelector('.cursor');
+            const cursorDot = document.querySelector('.cursor-dot');
+            window.addEventListener('mousemove', (e) => {
+                cursor.style.left = `${e.clientX}px`; cursor.style.top = `${e.clientY}px`;
+                cursorDot.style.left = `${e.clientX}px`; cursorDot.style.top = `${e.clientY}px`;
+                if (e.target.closest('a') || e.target.closest('button')) {
+                    cursor.style.width = '50px'; cursor.style.height = '50px'; cursor.style.background = 'rgba(0, 243, 255, 0.2)';
+                } else {
+                    cursor.style.width = '20px'; cursor.style.height = '20px'; cursor.style.background = 'transparent';
+                }
+            });
+        }
+
+        // 2. Matrix Rain
+        const matrixCanvas = document.getElementById('matrix-canvas');
+        const mCtx = matrixCanvas.getContext('2d');
+        matrixCanvas.width = window.innerWidth;
+        matrixCanvas.height = window.innerHeight;
+
+        const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789$+-*/=%\"'#&_(),.;:?!\\|{}<>[]^~".split("");
+        const fontSize = 14;
+        const columns = matrixCanvas.width / fontSize;
+        const drops = [];
+        for (let x = 0; x < columns; x++) drops[x] = 1;
+
+        function drawMatrix() {
+            mCtx.fillStyle = "rgba(2, 5, 15, 0.15)";
+            mCtx.fillRect(0, 0, matrixCanvas.width, matrixCanvas.height);
+            mCtx.fillStyle = "rgba(0, 243, 255, 0.4)"; // Moviy neon raqamlar
+            mCtx.font = fontSize + "px monospace";
+
+            for (let i = 0; i < drops.length; i++) {
+                const text = letters[Math.floor(Math.random() * letters.length)];
+                mCtx.fillText(text, i * fontSize, drops[i] * fontSize);
+                if (drops[i] * fontSize > matrixCanvas.height && Math.random() > 0.975) drops[i] = 0;
+                drops[i]++;
+            }
+        }
+        setInterval(drawMatrix, 50);
+        window.addEventListener('resize', () => { matrixCanvas.width = window.innerWidth; matrixCanvas.height = window.innerHeight; });
+
+        // 3. THREE.JS PARTICLE FACE (Piksellarni o'qib, 3D zarrachalar yaratish)
+        const container = document.getElementById('3d-container');
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.z = 30;
+
+        const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(window.devicePixelRatio);
+        container.appendChild(renderer.domElement);
+
+        // Rasm yuklash uchun yashirin canvas
+        const imgCanvas = document.createElement('canvas');
+        const imgCtx = imgCanvas.getContext('2d');
+        const imgSize = 500;
+        imgCanvas.width = imgSize;
+        imgCanvas.height = imgSize;
+
+        // Mukammal neon yuzni 2D canvasda chizish (Rasmdagi kabi)
+        imgCtx.fillStyle = "#000000";
+        imgCtx.fillRect(0, 0, imgSize, imgSize);
+        imgCtx.strokeStyle = "#00f3ff";
+        imgCtx.lineWidth = 1.5;
+        imgCtx.shadowBlur = 10;
+        imgCtx.shadowColor = "#00f3ff";
+
+        // Bosh shakli
+        imgCtx.beginPath();
+        imgCtx.moveTo(200, 100); // Chap peshona
+        imgCtx.bezierCurveTo(200, 50, 300, 50, 300, 100); // Tepa
+        imgCtx.bezierCurveTo(320, 150, 320, 250, 250, 320); // O'ng yonoq
+        imgCtx.lineTo(250, 380); // Bo'yin
+        imgCtx.lineTo(150, 380); // Bo'yin
+        imgCtx.lineTo(150, 320); // Iyak
+        imgCtx.bezierCurveTo(80, 250, 80, 150, 200, 100); // Chap yonoq
+        imgCtx.stroke();
+
+        // Ko'zlar (Yorqinroq va neon)
+        imgCtx.fillStyle = "#00f3ff";
+        imgCtx.beginPath();
+        imgCtx.ellipse(160, 160, 20, 8, 0, 0, Math.PI * 2);
+        imgCtx.ellipse(240, 160, 20, 8, 0, 0, Math.PI * 2);
+        imgCtx.fill();
+
+        // Burun
+        imgCtx.beginPath();
+        imgCtx.moveTo(200, 160);
+        imgCtx.lineTo(200, 220);
+        imgCtx.lineTo(210, 240);
+        imgCtx.stroke();
+
+        // Lablar
+        imgCtx.beginPath();
+        imgCtx.moveTo(170, 270);
+        imgCtx.quadraticCurveTo(200, 280, 230, 270);
+        imgCtx.stroke();
+
+        // Bo'yin va ko'krakdagi neon zanjirlar (Binafsha va Pushti)
+        imgCtx.strokeStyle = "#bc13fe";
+        imgCtx.shadowColor = "#bc13fe";
+        imgCtx.beginPath();
+        imgCtx.moveTo(200, 380);
+        imgCtx.lineTo(200, 450);
+        imgCtx.moveTo(220, 380);
+        imgCtx.lineTo(220, 450);
+        imgCtx.moveTo(180, 380);
+        imgCtx.lineTo(180, 450);
+        imgCtx.stroke();
+
+        // Piksellarni o'qib, 3D zarrachalar yaratish
+        const imgData = imgCtx.getImageData(0, 0, imgSize, imgSize).data;
+        const particleCount = 15000; // Zarrachalar soni
+        const positions = new Float32Array(particleCount * 3);
+        const colors = new Float32Array(particleCount * 3);
+
+        let pIndex = 0;
+        // Tasodifiy piksellarni tanlab, 3D koordinatalarga aylantirish
+        for (let i = 0; i < particleCount; i++) {
+            const px = Math.floor(Math.random() * imgSize);
+            const py = Math.floor(Math.random() * imgSize);
+            const index = (py * imgSize + px) * 4;
+            
+            const r = imgData[index];
+            const g = imgData[index + 1];
+            const b = imgData[index + 2];
+            const a = imgData[index + 3];
+
+            // Agar piksel shaffof bo'lmasa (yoki yorug'lik bo'lsa)
+            if (a > 0 && (r > 10 || g > 10 || b > 10)) {
+                // Markazga nisbatan koordinatalarni hisoblash
+                const x = (px - imgSize / 2) * 0.08;
+                const y = -(py - imgSize / 2) * 0.08; 
+                // Z o'qida tasodifiy hajm berish (3D effekt)
+                const z = (Math.random() - 0.5) * 2; 
+
+                positions[pIndex * 3] = x;
+                positions[pIndex * 3 + 1] = y;
+                positions[pIndex * 3 + 2] = z;
+
+                // Ranglarni o'zgartirish
+                colors[pIndex * 3] = r / 255;
+                colors[pIndex * 3 + 1] = g / 255;
+                colors[pIndex * 3 + 2] = b / 255;
+
+                pIndex++;
+            }
+        }
+
+        const geometry = new THREE.BufferGeometry();
+        geometry.setAttribute('position', new THREE.BufferAttribute(positions.slice(0, pIndex * 3), 3));
+        geometry.setAttribute('color', new THREE.BufferAttribute(colors.slice(0, pIndex * 3), 3));
+
+        const material = new THREE.PointsMaterial({
+            size: 0.15,
+            vertexColors: true,
+            transparent: true,
+            opacity: 0.9,
+            blending: THREE.AdditiveBlending, // Neon yonish effekti
+            depthWrite: false
+        });
+
+        const faceMesh = new THREE.Points(geometry, material);
+        
+        // Yuzni markazga biroz pastroq qilib joylashtirish (matn tepada turishi uchun)
+        faceMesh.position.y = -3;
+        scene.add(faceMesh);
+
+        // Sichqonchaga qarab 3D harakatlanish
+        let mouseX = 0; let mouseY = 0;
+        let targetRotX = 0; let targetRotY = 0;
+
+        if (window.innerWidth > 768) {
+            document.addEventListener('mousemove', (e) => {
+                mouseX = (e.clientX - window.innerWidth / 2) * 0.005;
+                mouseY = (e.clientY - window.innerHeight / 2) * 0.005;
+            });
+        }
+
+        function animate3D() {
+            requestAnimationFrame(animate3D);
+            
+            // Yumshoq burilish
+            targetRotY += (mouseX - targetRotY) * 0.05;
+            targetRotX += (mouseY - targetRotX) * 0.05;
+
+            faceMesh.rotation.y = targetRotY;
+            faceMesh.rotation.x = targetRotX;
+            
+            // Nafas olish (hajm o'zgarishi)
+            const scale = 1 + Math.sin(Date.now() * 0.002) * 0.02;
+            faceMesh.scale.set(scale, scale, scale);
+
+            renderer.render(scene, camera);
+        }
+        animate3D();
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+    </script>
+</body>
+</html>
