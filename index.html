@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>Jasurbek Turayev | Raqamli Me'mor</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* =========================================
+           GLOBAL VA KIBERPANK SOZLAMALAR
+           ========================================= */
+        :root {
+            --bg-color: #02050f;
+            --text-main: #ffffff;
+            --text-muted: #64748b;
+            --primary: #00f3ff;
+            --accent: #bc13fe;
+            --glass: rgba(10, 20, 40, 0.4);
+            --border: rgba(0, 243, 255, 0.2);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; overflow-x: hidden; }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            cursor: none; 
+            width: 100%; max-width: 100vw;
+            background-image: 
+                radial-gradient(circle at 50% 0%, rgba(0, 243, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 100% 100%, rgba(188, 19, 254, 0.1) 0%, transparent 50%);
+        }
+
+        h1, h2, h3, .logo-text { 
+            font-family: 'Syne', sans-serif; 
+            overflow-wrap: break-word; 
+            text-wrap: balance; 
+        }
+
+        /* --- MAXSUS KURSOR --- */
+        .cursor {
+            position: fixed; top: 0; left: 0; width: 20px; height: 20px;
+            border: 2px solid var(--primary); border-radius: 50%;
+            pointer-events: none; z-index: 9999;
+            transform: translate(-50%, -50%); transition: width 0.2s, height 0.2s, background 0.2s;
+            box-shadow: 0 0 10px var(--primary);
+        }
+        .cursor-dot {
+            position: fixed; top: 0; left: 0; width: 6px; height: 6px;
+            background: var(--primary); border-radius: 50%; pointer-events: none; z-index: 10000;
+            transform: translate(-50%, -50%); box-shadow: 0 0 10px var(--primary);
+        }
+
+        /* --- NEYRON TARMOQ FONI --- */
+        #particle-canvas {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -3;
+        }
+
+        /* --- NAVBAR --- */
+        nav {
+            position: fixed; top: 15px; left: 50%; transform: translateX(-50%);
+            width: calc(100% - 30px); max-width: 1200px; z-index: 1000;
+            background: rgba(2, 5, 15, 0.7); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--border); border-radius: 50px;
+            padding: 10px 20px; display: flex; justify-content: space-between; align-items: center;
+            transition: all 0.4s ease; box-shadow: 0 0 20px rgba(0, 243, 255, 0.1);
+        }
+        .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; color: #fff; }
+        .logo-box {
+            width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, var(--primary), var(--accent));
+            display: flex; justify-content: center; align-items: center; font-weight: 800; font-size: 14px;
+            box-shadow: 0 0 20px var(--primary);
+        }
+        .logo-text { font-size: 16px; font-weight: 700; text-shadow: 0 0 10px rgba(255,255,255,0.5); }
+        .nav-links { display: none; gap: 30px; }
+        .nav-links a { color: var(--text-muted); text-decoration: none; font-size: 14px; font-weight: 500; transition: 0.3s; }
+        .nav-links a:hover { color: var(--primary); text-shadow: 0 0 10px var(--primary); }
+        
+        .btn-contact {
+            background: transparent; color: var(--primary); padding: 10px 20px; border-radius: 50px;
+            text-decoration: none; font-weight: 700; font-size: 14px; transition: transform 0.2s ease;
+            display: inline-block; border: 1px solid var(--primary); box-shadow: 0 0 15px rgba(0, 243, 255, 0.2) inset;
+        }
+        .btn-contact:hover { background: var(--primary); color: #000; box-shadow: 0 0 20px var(--primary); }
+
+        /* =========================================
+           HERO SECTION VA KIBER-ROBOT
+           ========================================= */
+        .hero {
+            min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center;
+            text-align: center; padding: 120px 20px 60px; position: relative; z-index: 1;
+            width: 100%; max-width: 100vw;
+        }
+        
+        .hero-badge {
+            display: inline-flex; align-items: center; gap: 10px;
+            background: rgba(0, 243, 255, 0.05); border: 1px solid var(--border);
+            padding: 6px 16px; border-radius: 50px; font-size: 12px; font-weight: 500;
+            color: var(--primary); margin-bottom: 20px; backdrop-filter: blur(10px);
+            box-shadow: 0 0 15px rgba(0, 243, 255, 0.2);
+        }
+        .badge-dot { width: 8px; height: 8px; background: var(--primary); border-radius: 50%; box-shadow: 0 0 10px var(--primary); animation: pulse 2s infinite; }
+
+        /* --- KIBER-ROBOT (SVG + 3D) --- */
+        .robot-container {
+            position: relative; width: 260px; height: 300px; margin: 0 auto 30px;
+            perspective: 1000px;
+        }
+        
+        .robot-svg {
+            width: 100%; height: 100%; 
+            filter: drop-shadow(0 0 30px rgba(0, 243, 255, 0.4));
+            animation: floatRobot 4s ease-in-out infinite;
+            transition: transform 0.1s ease-out;
+            transform-style: preserve-3d;
+        }
+
+        /* Ko'zlar miltillashi */
+        .robot-eye {
+            animation: blink 4s infinite;
+        }
+        /* Ko'krak yadrosi pulsatsiyasi */
+        .chest-core {
+            animation: corePulse 2s infinite alternate;
+        }
+
+        @keyframes floatRobot {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+        @keyframes blink {
+            0%, 95%, 98% { opacity: 1; }
+            96%, 99% { opacity: 0.1; }
+        }
+        @keyframes corePulse {
+            0% { opacity: 0.7; filter: drop-shadow(0 0 5px #00f3ff); }
+            100% { opacity: 1; filter: drop-shadow(0 0 20px #bc13fe); }
+        }
+
+        /* Hologramma Panellar (Fon uchun) */
+        .holo-panel {
+            position: absolute; border: 1px solid var(--border); background: rgba(0, 243, 255, 0.05);
+            backdrop-filter: blur(10px); border-radius: 15px; padding: 15px; opacity: 0.5;
+            box-shadow: 0 0 20px rgba(0, 243, 255, 0.1), inset 0 0 10px rgba(0, 243, 255, 0.1);
+            display: none; /* Telefonda ko'rinmaydi */
+        }
+        
+        /* --- SARLAVHA --- */
+        .hero h1 {
+            font-size: clamp(36px, 9vw, 100px); 
+            font-weight: 800; line-height: 1.1;
+            letter-spacing: -1px; margin-bottom: 20px; text-transform: uppercase;
+            text-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
+        }
+        .hero h1 .outline {
+            color: transparent; -webkit-text-stroke: 2px var(--primary);
+            text-shadow: 0 0 20px rgba(0, 243, 255, 0.5);
+        }
+        .hero p {
+            font-size: clamp(15px, 4vw, 20px); color: var(--text-muted);
+            max-width: 600px; margin: 0 auto 40px; font-weight: 400;
+        }
+
+        .hero-btns { display: flex; flex-direction: column; gap: 12px; width: 100%; max-width: 350px; }
+        .btn-primary, .btn-secondary {
+            padding: 16px 24px; border-radius: 50px; font-size: 15px; font-weight: 600;
+            text-decoration: none; display: flex; justify-content: center; align-items: center; gap: 10px;
+            transition: all 0.3s ease; border: 1px solid transparent; text-transform: uppercase; letter-spacing: 1px;
+        }
+        .btn-primary { background: var(--primary); color: #000; box-shadow: 0 0 20px rgba(0, 243, 255, 0.4); }
+        .btn-primary:hover { background: #fff; transform: scale(1.05); box-shadow: 0 0 30px var(--primary); }
+        .btn-secondary { background: transparent; color: #fff; border-color: var(--border); backdrop-filter: blur(10px); }
+        .btn-secondary:hover { background: rgba(0, 243, 255, 0.1); border-color: var(--primary); transform: scale(1.05); }
+
+        /* --- SECTION WRAP --- */
+        .section-wrap { width: 100%; max-width: 1200px; margin: 0 auto; padding: 80px 20px; position: relative; z-index: 1; }
+        .section-title { font-size: clamp(28px, 7vw, 56px); font-weight: 800; margin-bottom: 15px; text-transform: uppercase; letter-spacing: -1px; color: #fff; text-shadow: 0 0 20px rgba(0, 243, 255, 0.3); }
+        
+        /* --- MEN HAQIMDA --- */
+        .about-grid { display: grid; grid-template-columns: 1fr; gap: 30px; align-items: center; }
+        .about-visual {
+            width: 100%; max-width: 350px; aspect-ratio: 1; border-radius: 30px; background: var(--glass);
+            border: 1px solid var(--border); display: flex; justify-content: center; align-items: center;
+            font-size: 90px; font-weight: 800; font-family: 'Syne', sans-serif; position: relative;
+            box-shadow: 0 0 40px rgba(0, 243, 255, 0.1), inset 0 0 40px rgba(188, 19, 254, 0.1); overflow: hidden; margin: 0 auto;
+        }
+        .about-text p { color: var(--text-muted); font-size: 15px; margin-bottom: 25px; }
+        .tech-stack { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+        .tech-item { background: rgba(0, 243, 255, 0.05); border: 1px solid var(--border); padding: 8px 16px; border-radius: 50px; font-size: 13px; font-weight: 600; color: var(--primary); }
+
+        /* --- MENING LOYIHALARIM --- */
+        .bento-grid { display: grid; grid-template-columns: 1fr; gap: 15px; margin-top: 40px; }
+        .project-card {
+            background: var(--glass); border: 1px solid var(--border); border-radius: 24px;
+            padding: 25px; display: flex; flex-direction: column; position: relative; overflow: hidden;
+            backdrop-filter: blur(20px); transform-style: preserve-3d; transition: all 0.3s;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+        }
+        .project-card:hover { border-color: var(--primary); box-shadow: 0 0 30px rgba(0, 243, 255, 0.2); }
+        .project-card::before {
+            content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(800px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(0, 243, 255, 0.1), transparent 40%);
+            z-index: 0; opacity: 0; transition: opacity 0.5s; pointer-events: none;
+        }
+        .project-card:hover::before { opacity: 1; }
+
+        .proj-icon { font-size: 40px; margin-bottom: 15px; transform: translateZ(40px); transition: transform 0.3s; filter: drop-shadow(0 0 10px rgba(0,243,255,0.5)); }
+        .project-card:hover .proj-icon { transform: translateZ(60px) scale(1.1); }
+        .proj-title { font-size: 22px; font-weight: 800; margin-bottom: 8px; transform: translateZ(30px); color: #fff; }
+        .proj-desc { color: var(--text-muted); font-size: 14px; margin-bottom: 20px; flex-grow: 1; transform: translateZ(20px); }
+        .proj-btn {
+            background: transparent; color: var(--primary); padding: 10px 20px; border-radius: 10px;
+            text-decoration: none; font-weight: 700; font-size: 13px; display: inline-flex;
+            align-items: center; gap: 8px; align-self: flex-start; transform: translateZ(30px);
+            transition: 0.3s; border: 1px solid var(--primary);
+        }
+        .proj-btn:hover { background: var(--primary); color: #000; box-shadow: 0 0 15px var(--primary); }
+
+        /* --- CTA --- */
+        .cta-section { padding: 80px 20px; text-align: center; position: relative; z-index: 1; width: 100%; overflow: hidden; }
+        .cta-section h2 { font-size: clamp(28px, 8vw, 64px); font-weight: 800; margin-bottom: 15px; text-transform: uppercase; color: #fff; text-shadow: 0 0 20px rgba(255,255,255,0.3); }
+        .btn-cta {
+            background: linear-gradient(135deg, var(--primary), var(--accent)); color: #fff;
+            padding: 16px 40px; border-radius: 50px; font-size: 16px; font-weight: 800;
+            text-decoration: none; display: inline-flex; align-items: center; gap: 10px;
+            box-shadow: 0 0 30px rgba(0, 243, 255, 0.4); transition: 0.3s; text-transform: uppercase;
+        }
+        .btn-cta:hover { transform: translateY(-5px); box-shadow: 0 0 50px rgba(188, 19, 254, 0.6); }
+
+        footer { border-top: 1px solid var(--border); padding: 30px 20px; text-align: center; color: var(--text-muted); font-size: 13px; position: relative; z-index: 1; }
+
+        /* --- ANIMATSIYALAR --- */
+        .reveal { opacity: 0; transform: translateY(50px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        /* =========================================
+           RESPONSIVE
+           ========================================= */
+        @media (min-width: 768px) {
+            .nav-links { display: flex; }
+            .hero-btns { flex-direction: row; max-width: none; }
+            .hero h1 { letter-spacing: -4px; }
+            
+            .bento-grid { grid-template-columns: repeat(2, 1fr); }
+            .project-card:nth-child(1) { grid-column: span 2; }
+            .project-card:nth-child(4) { grid-column: span 2; }
+            
+            .about-grid { grid-template-columns: 1fr 1fr; gap: 50px; }
+            .about-visual { max-width: 100%; font-size: 120px; }
+            .tech-stack { justify-content: flex-start; }
+            .project-card { padding: 35px; }
+            .proj-icon { font-size: 50px; }
+            .proj-title { font-size: 26px; }
+            
+            .robot-container { width: 320px; height: 380px; }
+            
+            /* Hologramma panellarni ko'rsatish */
+            .holo-panel { display: block; animation: floatPanel 6s infinite ease-in-out; }
+            .hp-1 { top: 10%; left: -20%; animation-delay: 0s; }
+            .hp-2 { top: 40%; right: -25%; animation-delay: -2s; }
+            .hp-3 { bottom: 10%; left: -15%; animation-delay: -4s; }
+        }
+
+        @media (min-width: 1024px) {
+            .bento-grid { grid-template-columns: repeat(3, 1fr); }
+            .project-card:nth-child(1) { grid-column: span 2; }
+            .project-card:nth-child(2) { grid-column: span 1; }
+            .project-card:nth-child(3) { grid-column: span 1; }
+            .project-card:nth-child(4) { grid-column: span 1; }
+            .project-card:nth-child(5) { grid-column: span 1; }
+        }
+
+        @media (max-width: 768px) {
+            body { cursor: auto; }
+            .cursor, .cursor-dot { display: none; }
+        }
+
+        @keyframes floatPanel {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(2deg); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="cursor"></div>
+    <div class="cursor-dot"></div>
+
+    <canvas id="particle-canvas"></canvas>
+
+    <!-- NAVBAR -->
+    <nav id="navbar">
+        <a href="#" class="logo">
+            <div class="logo-box">JT</div>
+            <div class="logo-text">Jasurbek</div>
+        </a>
+        <div class="nav-links">
+            <a href="#about">Men haqimda</a>
+            <a href="#projects">Loyihalar</a>
+            <a href="#contact">Aloqa</a>
+        </div>
+        <a href="https://t.me/Asoschi_JT" class="btn-contact magnetic" target="_blank">Bog'lanish</a>
+    </nav>
+
+    <!-- HERO -->
+    <header class="hero">
+        <div class="hero-badge reveal">
+            <div class="badge-dot"></div>
+            <span>Yangi loyihalar uchun ochiq</span>
+        </div>
+
+        <!-- KIBER-ROBOT VA HOLOGRAMMA PANELLAR -->
+        <div class="robot-container reveal" id="robot-container">
+            <!-- Fon uchun hologramma panellar -->
+            <div class="holo-panel hp-1">
+                <div style="font-size:10px; color:var(--primary); margin-bottom:5px;">📅 Agenda</div>
+                <div style="width:80px; height:4px; background:rgba(0,243,255,0.3); margin-bottom:4px;"></div>
+                <div style="width:60px; height:4px; background:rgba(0,243,255,0.3);"></div>
+            </div>
+            <div class="holo-panel hp-2">
+                <div style="font-size:10px; color:var(--primary); margin-bottom:5px;">📝 Notes</div>
+                <div style="width:70px; height:4px; background:rgba(0,243,255,0.3); margin-bottom:4px;"></div>
+                <div style="width:50px; height:4px; background:rgba(0,243,255,0.3);"></div>
+            </div>
+            <div class="holo-panel hp-3">
+                <div style="font-size:10px; color:var(--primary); margin-bottom:5px;">📍 Route</div>
+                <div style="width:90px; height:4px; background:rgba(0,243,255,0.3);"></div>
+            </div>
+
+            <!-- Asosiy Robot (SVG) -->
+            <svg class="robot-svg" id="robot-svg" viewBox="0 0 200 250" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="neonGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#00f3ff"/>
+                        <stop offset="100%" stop-color="#bc13fe"/>
+                    </linearGradient>
+                    <linearGradient id="visorGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" stop-color="#020617" stop-opacity="0.9"/>
+                        <stop offset="100%" stop-color="#1e293b" stop-opacity="0.8"/>
+                    </linearGradient>
+                    <filter id="neonFilter" x="-50%" y="-50%" width="200%" height="200%">
+                        <feGaussianBlur stdDeviation="4" result="blur" />
+                        <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                    </filter>
+                </defs>
+
+                <!-- Tana / Bo'yin -->
+                <path d="M 70 160 Q 70 150 85 150 L 115 150 Q 130 150 130 160 L 140 240 L 60 240 Z" fill="none" stroke="url(#neonGlow)" stroke-width="2" opacity="0.5"/>
+                
+                <!-- Ko'krak yadrosi -->
+                <path d="M 85 180 L 115 180 L 125 240 L 75 240 Z" fill="none" stroke="url(#neonGlow)" stroke-width="1" opacity="0.3"/>
+                <circle cx="100" cy="200" r="10" fill="none" stroke="url(#neonGlow)" stroke-width="2" class="chest-core"/>
+                <line x1="100" y1="210" x2="100" y2="240" stroke="url(#neonGlow)" stroke-width="2" filter="url(#neonFilter)" opacity="0.6"/>
+
+                <!-- Bosh -->
+                <g id="robot-head">
+                    <!-- Bosh qobig'i (Tarmoqli) -->
+                    <path d="M 50 50 Q 50 10 100 10 Q 150 10 150 50 L 150 130 Q 150 150 100 150 Q 50 150 50 130 Z" fill="none" stroke="url(#neonGlow)" stroke-width="2" filter="url(#neonFilter)"/>
+                    
+                    <!-- Ichki tarmoq chiziqlari -->
+                    <path d="M 60 40 L 140 40 M 55 70 L 145 70 M 55 100 L 145 100" stroke="url(#neonGlow)" stroke-width="0.5" opacity="0.3"/>
+                    <path d="M 70 20 L 70 140 M 100 10 L 100 150 M 130 20 L 130 140" stroke="url(#neonGlow)" stroke-width="0.5" opacity="0.3"/>
+                    
+                    <!-- Yuz qismi (Vizor) -->
+                    <path d="M 65 50 Q 65 35 100 35 Q 135 35 135 50 L 135 110 Q 135 130 100 130 Q 65 130 65 110 Z" fill="url(#visorGrad)" stroke="#1e293b" stroke-width="1"/>
+
+                    <!-- Ko'zlar -->
+                    <g class="robot-eye">
+                        <path d="M 75 75 L 90 70 L 90 85 L 75 80 Z" fill="#00f3ff" filter="url(#neonFilter)"/>
+                        <path d="M 125 75 L 110 70 L 110 85 L 125 80 Z" fill="#00f3ff" filter="url(#neonFilter)"/>
+                    </g>
+
+                    <!-- Og'iz (Panjara) -->
+                    <rect x="85" y="100" width="30" height="10" rx="2" fill="none" stroke="#00f3ff" stroke-width="1" opacity="0.5"/>
+                    <line x1="90" y1="100" x2="90" y2="110" stroke="#00f3ff" stroke-width="1" opacity="0.5"/>
+                    <line x1="100" y1="100" x2="100" y2="110" stroke="#00f3ff" stroke-width="1" opacity="0.5"/>
+                    <line x1="110" y1="100" x2="110" y2="110" stroke="#00f3ff" stroke-width="1" opacity="0.5"/>
+                </g>
+            </svg>
+        </div>
+
+        <h1 class="reveal" id="scramble-text">
+            RAQAMLI <br> <span class="outline">ME'MOR</span>
+        </h1>
+        <p class="reveal">Men Jasurbek Turayev. Sun'iy intellekt va Telegram botlari orqali biznesingizni kelajakka olib chiqaman. G'oyalarni avtomatlashtirilgan haqiqatga aylantiraman.</p>
+        
+        <div class="hero-btns reveal">
+            <a href="https://t.me/Asoschi_JT" class="btn-primary magnetic" target="_blank">Loyihani boshlash</a>
+            <a href="#projects" class="btn-secondary">Loyihalarimni ko'rish</a>
+        </div>
+    </header>
+
+    <!-- MEN HAQIMDA -->
+    <section class="section-wrap" id="about">
+        <div class="about-grid reveal">
+            <div class="about-visual">
+                <span style="position:relative; z-index:1; background: linear-gradient(135deg, #00f3ff, #bc13fe); -webkit-background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 0 20px rgba(0,243,255,0.4));">JT</span>
+            </div>
+            <div class="about-text">
+                <h2 class="section-title">Men haqimda</h2>
+                <p>Men oddiy dasturchi emasman. Men sizning biznesingizni 24/7 ishlaydigan avtonom tizimga aylantiruvchi raqamli me'morman. Telegram botlar, Mini Ilovalar va Sun'iy Intellekt integratsiyasi orqali mijozlaringizga eng qulay xizmatni yarataman.</p>
+                <div class="tech-stack">
+                    <span class="tech-item">Python</span>
+                    <span class="tech-item">Aiogram</span>
+                    <span class="tech-item">DeepSeek AI</span>
+                    <span class="tech-item">Docker</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MENING LOYIHALARIM -->
+    <section class="section-wrap" id="projects">
+        <h2 class="section-title reveal" style="text-align: center;">Mening loyihalarim</h2>
+        <p class="reveal" style="text-align: center; color: var(--text-muted); margin-bottom: 40px; font-size: 14px;">Men yaratgan va hozirda minglab insonlar foydalanayotgan tizimlar.</p>
+        
+        <div class="bento-grid">
+            
+            <div class="project-card reveal tilt-card">
+                <div class="proj-icon">🤖</div>
+                <h3 class="proj-title">MILLIY AI</h3>
+                <p class="proj-desc">O'zbek tilidagi eng ilg'or sun'iy intellekt. Kod yozish, matn yaratish va murakkab savollarga o'ylab javob berish uchun shaxsiy yordamchingiz. V3 va R1 rejimlari.</p>
+                <a href="https://t.me/Milliy_Ai_uzbot" class="proj-btn magnetic" target="_blank">Sinab ko'rish ↗</a>
+            </div>
+
+            <div class="project-card reveal tilt-card">
+                <div class="proj-icon">🛡️</div>
+                <h3 class="proj-title">JT VPN</h3>
+                <p class="proj-desc">Tezkor, xavfsiz va cheklovlarsiz internet. WireGuard protokoli orqali ishlaydigan premium VPN xizmati.</p>
+                <a href="https://t.me/JT_VPN_BOT" class="proj-btn magnetic" target="_blank">Ulanish ↗</a>
+            </div>
+
+            <div class="project-card reveal tilt-card">
+                <div class="proj-icon">🎓</div>
+                <h3 class="proj-title">JT Akademiya</h3>
+                <p class="proj-desc">AI yordamida sayt va botlar yaratishni o'rgatuvchi yopiq darslik. Kelajak kasbini egallang.</p>
+                <a href="https://t.me/JT_AKADEMIYA" class="proj-btn magnetic" target="_blank">O'rganish ↗</a>
+            </div>
+
+            <div class="project-card reveal tilt-card">
+                <div class="proj-icon">🚗</div>
+                <h3 class="proj-title">Avto Savdo Uz</h3>
+                <p class="proj-desc">Mashina e'lonlari bozori. Mahalliy va inomarka avtomobillari bo'yicha qulay qidiruv va e'lon berish tizimi.</p>
+                <a href="https://t.me/Avto_Savdo_UzBot" class="proj-btn magnetic" target="_blank">Ko'rish ↗</a>
+            </div>
+
+            <div class="project-card reveal tilt-card">
+                <div class="proj-icon">🧠</div>
+                <h3 class="proj-title">Minni Yordamchi</h3>
+                <p class="proj-desc">Har kuni kerak bo'ladigan vositalar (Valyuta, hujjat, o'yinlar) jamlangan aqlli Mini App.</p>
+                <a href="https://t.me/Minni_Yordamchi_Bot" class="proj-btn magnetic" target="_blank">Foydalanish ↗</a>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section" id="contact">
+        <h2 class="reveal">G'oyangiz bormi?</h2>
+        <p class="reveal" style="color: var(--text-muted); margin-bottom: 30px; padding: 0 10px;">Uni birgalikda raqamli oltin koniga aylantiramiz. Menga yozing.</p>
+        <a href="https://t.me/Asoschi_JT" class="btn-cta magnetic reveal" target="_blank">Telegram'da yozish</a>
+    </section>
+
+    <footer>
+        <p>© 2026 Jasurbek Turayev. Barcha huquqlar himoyalangan.</p>
+    </footer>
+
+    <!-- =========================================
+         JAVASCRIPT (Effektlar)
+         ========================================= -->
+    <script>
+        // 1. MAXSUS KURSOR
+        if (window.innerWidth > 768) {
+            const cursor = document.querySelector('.cursor');
+            const cursorDot = document.querySelector('.cursor-dot');
+            window.addEventListener('mousemove', (e) => {
+                cursor.style.left = `${e.clientX}px`;
+                cursor.style.top = `${e.clientY}px`;
+                cursorDot.style.left = `${e.clientX}px`;
+                cursorDot.style.top = `${e.clientY}px`;
+                if (e.target.closest('a') || e.target.closest('button') || e.target.closest('.robot-container')) {
+                    cursor.style.width = '50px'; cursor.style.height = '50px';
+                    cursor.style.background = 'rgba(0, 243, 255, 0.2)';
+                } else {
+                    cursor.style.width = '20px'; cursor.style.height = '20px';
+                    cursor.style.background = 'transparent';
+                }
+            });
+        }
+
+        // 2. NEYRON TARMOQ FONI (Canvas Particles)
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+        let particlesArray = [];
+        let mouse = { x: null, y: null, radius: 150 };
+        canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+
+        window.addEventListener('mousemove', (e) => { mouse.x = e.x; mouse.y = e.y; });
+        window.addEventListener('mouseout', () => { mouse.x = null; mouse.y = null; });
+
+        class Particle {
+            constructor(x, y, dx, dy, size) {
+                this.x = x; this.y = y; this.dx = dx; this.dy = dy; this.size = size;
+            }
+            draw() {
+                ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2, false);
+                ctx.fillStyle = 'rgba(0, 243, 255, 0.4)'; ctx.fill(); // Neon ko'k
+            }
+            update() {
+                if (this.x > canvas.width || this.x < 0) this.dx = -this.dx;
+                if (this.y > canvas.height || this.y < 0) this.dy = -this.dy;
+                let dx = mouse.x - this.x; let dy = mouse.y - this.y;
+                let distance = Math.sqrt(dx * dx + dy * dy);
+                if (distance < mouse.radius + this.size) {
+                    if (mouse.x < this.x && this.x < canvas.width - this.size * 10) this.x += 3;
+                    if (mouse.x > this.x && this.x > this.size * 10) this.x -= 3;
+                    if (mouse.y < this.y && this.y < canvas.height - this.size * 10) this.y += 3;
+                    if (mouse.y > this.y && this.y > this.size * 10) this.y -= 3;
+                }
+                this.x += this.dx; this.y += this.dy; this.draw();
+            }
+        }
+
+        function initCanvas() {
+            particlesArray = [];
+            let num = (canvas.height * canvas.width) / 12000; // Zarrachalar ko'proq
+            if(window.innerWidth < 768) num = num / 3;
+            for (let i = 0; i < num; i++) {
+                let size = (Math.random() * 2) + 0.5;
+                let x = (Math.random() * ((innerWidth - size * 2) - (size * 2)) + size * 2);
+                let y = (Math.random() * ((innerHeight - size * 2) - (size * 2)) + size * 2);
+                let dx = (Math.random() * 0.5) - 0.25; let dy = (Math.random() * 0.5) - 0.25;
+                particlesArray.push(new Particle(x, y, dx, dy, size));
+            }
+        }
+
+        function connect() {
+            for (let a = 0; a < particlesArray.length; a++) {
+                for (let b = a; b < particlesArray.length; b++) {
+                    let distance = ((particlesArray[a].x - particlesArray[b].x) * (particlesArray[a].x - particlesArray[b].x)) + 
+                                   ((particlesArray[a].y - particlesArray[b].y) * (particlesArray[a].y - particlesArray[b].y));
+                    if (distance < (canvas.width / 10) * (canvas.height / 10)) {
+                        let opacity = 1 - (distance / 20000);
+                        ctx.strokeStyle = `rgba(0, 243, 255, ${opacity * 0.15})`; // Neon tarmoq
+                        ctx.lineWidth = 1; ctx.beginPath();
+                        ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
+                        ctx.lineTo(particlesArray[b].x, particlesArray[b].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+            ctx.clearRect(0, 0, innerWidth, innerHeight);
+            for (let i = 0; i < particlesArray.length; i++) particlesArray[i].update();
+            connect();
+        }
+
+        window.addEventListener('resize', () => {
+            canvas.width = innerWidth; canvas.height = innerHeight; initCanvas();
+        });
+        initCanvas(); animate();
+
+        // 3. TEXT SCRAMBLE (Xakerlar filmidagi matn chiqishi)
+        class TextScramble {
+            constructor(el) { this.el = el; this.chars = '!<>-_\\/[]{}—=+*^?#________'; this.update = this.update.bind(this); }
+            setText(newText) {
+                const oldText = this.el.innerText;
+                const length = Math.max(oldText.length, newText.length);
+                const promise = new Promise((resolve) => this.resolve = resolve);
+                this.queue = [];
+                for (let i = 0; i < length; i++) {
+                    const from = oldText[i] || ''; const to = newText[i] || '';
+                    const start = Math.floor(Math.random() * 40); const end = start + Math.floor(Math.random() * 40);
+                    this.queue.push({ from, to, start, end });
+                }
+                cancelAnimationFrame(this.frameRequest); this.frame = 0; this.update(); return promise;
+            }
+            update() {
+                let output = ''; let complete = 0;
+                for (let i = 0, n = this.queue.length; i < n; i++) {
+                    let { from, to, start, end, char } = this.queue[i];
+                    if (this.frame >= end) { complete++; output += to; }
+                    else if (this.frame >= start) {
+                        if (!char || Math.random() < 0.28) { char = this.randomChar(); this.queue[i].char = char; }
+                        output += `<span style="color:var(--primary); opacity:0.5">${char}</span>`;
+                    } else { output += from; }
+                }
+                this.el.innerHTML = output;
+                if (complete === this.queue.length) { this.resolve(); }
+                else { this.frameRequest = requestAnimationFrame(this.update); this.frame++; }
+            }
+            randomChar() { return this.chars[Math.floor(Math.random() * this.chars.length)]; }
+        }
+
+        const el = document.getElementById('scramble-text');
+        const originalText = "RAQAMLI ME'MOR"; 
+        setTimeout(() => { const fx = new TextScramble(el); fx.setText(originalText); }, 500);
+
+        // 4. INTERAKTIV ROBOT (Sichqoncha/Barmoq harakatiga qarab 3D burilish)
+        const robotSvg = document.getElementById('robot-svg');
+        
+        if (window.innerWidth > 768) {
+            document.addEventListener('mousemove', (e) => {
+                const xAxis = (window.innerWidth / 2 - e.pageX) / 25; 
+                const yAxis = (window.innerHeight / 2 - e.pageY) / 25;
+                robotSvg.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
+            });
+            document.addEventListener('mouseleave', () => {
+                robotSvg.style.transform = `rotateY(0deg) rotateX(0deg)`;
+                robotSvg.style.transition = "transform 0.5s ease";
+            });
+            document.addEventListener('mouseenter', () => {
+                robotSvg.style.transition = "transform 0.1s ease-out";
+            });
+        }
+
+        // 5. SCROLL REVEAL
+        const revealElements = document.querySelectorAll('.reveal');
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) { entry.target.classList.add('active'); revealObserver.unobserve(entry.target); }
+            });
+        }, { threshold: 0.15 });
+        revealElements.forEach(el => revealObserver.observe(el));
+
+        // 6. MAGNETIC BUTTONS
+        if (window.innerWidth > 768) {
+            const magneticBtns = document.querySelectorAll('.magnetic');
+            magneticBtns.forEach(btn => {
+                btn.addEventListener('mousemove', (e) => {
+                    const rect = btn.getBoundingClientRect();
+                    const x = e.clientX - rect.left - rect.width / 2;
+                    const y = e.clientY - rect.top - rect.height / 2;
+                    btn.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
+                });
+                btn.addEventListener('mouseleave', () => { btn.style.transform = `translate(0px, 0px)`; btn.style.transition = 'transform 0.3s ease'; });
+                btn.addEventListener('mouseenter', () => { btn.style.transition = 'transform 0.1s ease'; });
+            });
+        }
+
+        // 7. 3D TILT CARDS
+        if (window.innerWidth > 768) {
+            const cards = document.querySelectorAll('.project-card');
+            cards.forEach(card => {
+                card.addEventListener('mousemove', (e) => {
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left; const y = e.clientY - rect.top;
+                    const centerX = rect.width / 2; const centerY = rect.height / 2;
+                    const rotateX = ((y - centerY) / centerY) * -5; const rotateY = ((x - centerX) / centerX) * 5;
+                    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+                    card.style.setProperty('--mouse-x', `${x}px`); card.style.setProperty('--mouse-y', `${y}px`);
+                });
+                card.addEventListener('mouseleave', () => {
+                    card.style.transform = `perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)`;
+                    card.style.transition = 'transform 0.5s ease';
+                });
+                card.addEventListener('mouseenter', () => { card.style.transition = 'none'; });
+            });
+        }
+
+        // 8. NAVBAR SCROLL
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.style.background = 'rgba(2, 5, 15, 0.95)'; navbar.style.top = '0';
+                navbar.style.width = '100%'; navbar.style.borderRadius = '0';
+                navbar.style.borderTop = 'none'; navbar.style.borderLeft = 'none'; navbar.style.borderRight = 'none';
+            } else {
+                navbar.style.background = 'rgba(2, 5, 15, 0.7)'; navbar.style.top = '15px';
+                navbar.style.width = 'calc(100% - 30px)'; navbar.style.borderRadius = '50px';
+                navbar.style.border = '1px solid rgba(0, 243, 255, 0.2)';
+            }
+        });
+    </script>
+</body>
+</html>
