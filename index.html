@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>Jasurbek Turayev | Elite AI & Bot Architect</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        /* =========================================
+           GLOBAL SOZLAMALAR VA PREMIUM EFFEKTLAR
+           ========================================= */
+        :root {
+            --bg-base: #030305;
+            --text-primary: #ffffff;
+            --text-secondary: #a1a1aa;
+            --border-color: rgba(255, 255, 255, 0.08);
+            
+            /* Neon Ranglar */
+            --neon-blue: #3b82f6;
+            --neon-cyan: #06b6d4;
+            --neon-purple: #8b5cf6;
+            --neon-green: #10b981;
+            
+            /* Bento Card sozlamalari */
+            --bento-bg: rgba(18, 18, 22, 0.7);
+            --bento-hover: rgba(30, 30, 35, 0.9);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            background-color: var(--bg-base);
+            color: var(--text-primary);
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Orqa fon effektlari (Grid + Glow) */
+        .bg-grid {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -3;
+            background-image: 
+                linear-gradient(to right, rgba(255,255,255,0.02) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255,255,255,0.02) 1px, transparent 1px);
+            background-size: 40px 40px;
+            mask-image: radial-gradient(circle at center, black 40%, transparent 80%);
+            -webkit-mask-image: radial-gradient(circle at center, black 40%, transparent 80%);
+        }
+        
+        /* "Noise" (Plyonka) effekti - juda premium ko'rinish beradi */
+        .bg-noise {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -2; opacity: 0.04; pointer-events: none;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        .glow-orb {
+            position: fixed; border-radius: 50%; filter: blur(120px); z-index: -1; opacity: 0.4; animation: float 10s infinite alternate;
+        }
+        .orb-1 { top: -10%; left: 20%; width: 400px; height: 400px; background: var(--neon-blue); }
+        .orb-2 { bottom: 0%; right: -10%; width: 500px; height: 500px; background: var(--neon-purple); animation-delay: -5s; }
+
+        @keyframes float {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(30px, 50px) scale(1.1); }
+        }
+
+        /* =========================================
+           NAVBAR (Shisha effekt)
+           ========================================= */
+        nav {
+            position: fixed; top: 0; width: 100%; z-index: 1000;
+            background: rgba(3, 3, 5, 0.7); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+        .nav-container {
+            max-width: 1200px; margin: 0 auto; padding: 0 24px; height: 72px;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .logo { font-family: 'Space Grotesk', sans-serif; font-size: 20px; font-weight: 700; display: flex; align-items: center; gap: 10px; text-decoration: none; color: white; }
+        .logo-box {
+            width: 36px; height: 36px; border-radius: 10px;
+            background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
+            display: flex; justify-content: center; align-items: center; font-size: 16px;
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
+        }
+        .nav-links { display: none; gap: 30px; }
+        .nav-links a { color: var(--text-secondary); text-decoration: none; font-size: 14px; font-weight: 500; transition: 0.3s; }
+        .nav-links a:hover { color: #fff; text-shadow: 0 0 10px rgba(255,255,255,0.5); }
+        
+        .btn-nav {
+            background: #fff; color: #000; padding: 10px 24px; border-radius: 50px;
+            text-decoration: none; font-weight: 700; font-size: 14px; transition: 0.3s;
+        }
+        .btn-nav:hover { transform: scale(1.05); box-shadow: 0 0 20px rgba(255,255,255,0.3); }
+
+        /* =========================================
+           HERO SECTION (Kosmik kirish)
+           ========================================= */
+        .hero {
+            padding: 180px 24px 80px; text-align: center; max-width: 900px; margin: 0 auto;
+            opacity: 0; transform: translateY(30px); animation: fadeUp 1s ease forwards;
+        }
+        @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+
+        .hero-badge {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-color);
+            padding: 6px 16px; border-radius: 50px; font-size: 13px; font-weight: 500; color: var(--text-secondary);
+            margin-bottom: 30px; backdrop-filter: blur(10px);
+        }
+        .badge-dot { width: 6px; height: 6px; background: var(--neon-green); border-radius: 50%; box-shadow: 0 0 10px var(--neon-green); animation: pulse 2s infinite; }
+        
+        .hero h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(40px, 8vw, 76px);
+            font-weight: 700; line-height: 1.05; letter-spacing: -2px; margin-bottom: 24px;
+        }
+        .hero h1 .gradient-text {
+            background: linear-gradient(135deg, #60a5fa, #c084fc, #f472b6);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .hero p {
+            font-size: clamp(16px, 2vw, 20px); color: var(--text-secondary);
+            max-width: 650px; margin: 0 auto 40px;
+        }
+
+        .hero-btns { display: flex; flex-direction: column; gap: 15px; justify-content: center; margin-bottom: 60px; }
+        .btn-main {
+            background: #fff; color: #000; padding: 16px 36px; border-radius: 50px;
+            text-decoration: none; font-size: 16px; font-weight: 700; transition: all 0.3s;
+            display: inline-flex; justify-content: center; align-items: center; gap: 10px;
+        }
+        .btn-main:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(255,255,255,0.2); }
+        .btn-ghost {
+            background: rgba(255, 255, 255, 0.05); color: #fff; padding: 16px 36px; border-radius: 50px;
+            text-decoration: none; font-size: 16px; font-weight: 600; border: 1px solid var(--border-color);
+            transition: all 0.3s; display: inline-flex; justify-content: center; align-items: center;
+        }
+        .btn-ghost:hover { background: rgba(255, 255, 255, 0.1); border-color: rgba(255,255,255,0.2); }
+
+        .hero-stats {
+            display: flex; justify-content: center; gap: 40px; border-top: 1px solid var(--border-color); padding-top: 40px; flex-wrap: wrap;
+        }
+        .stat h4 { font-family: 'Space Grotesk', sans-serif; font-size: 28px; font-weight: 700; color: #fff; margin-bottom: 4px; }
+        .stat p { font-size: 13px; color: var(--text-secondary); }
+
+        /* =========================================
+           BENTO GRID (Loyihalar va Xizmatlar)
+           ========================================= */
+        .section-padding { padding: 100px 24px; max-width: 1200px; margin: 0 auto; }
+        .section-title { font-family: 'Space Grotesk', sans-serif; font-size: clamp(28px, 4vw, 40px); font-weight: 700; margin-bottom: 16px; text-align: center; }
+        .section-subtitle { text-align: center; color: var(--text-secondary); margin-bottom: 60px; font-size: 16px; }
+
+        .bento-grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
+        
+        /* Kartochkalarning asosiy dizayni */
+        .bento-card {
+            background: var(--bento-bg); border: 1px solid var(--border-color);
+            border-radius: 24px; padding: 32px; position: relative; overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            display: flex; flex-direction: column;
+        }
+        
+        /* Spotlight (Nur) effekti - JS orqali boshqariladi */
+        .bento-card::before {
+            content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(800px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(255,255,255,0.06), transparent 40%);
+            z-index: 0; opacity: 0; transition: opacity 0.5s; pointer-events: none;
+        }
+        .bento-card:hover::before { opacity: 1; }
+        .bento-card:hover { border-color: rgba(255, 255, 255, 0.2); transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
+
+        /* Ichki elementlar */
+        .bento-icon { font-size: 40px; margin-bottom: 20px; z-index: 1; transition: transform 0.3s; }
+        .bento-card:hover .bento-icon { transform: scale(1.1) translateY(-5px); }
+        .bento-title { font-family: 'Space Grotesk', sans-serif; font-size: 22px; font-weight: 700; margin-bottom: 8px; z-index: 1; }
+        .bento-desc { color: var(--text-secondary); font-size: 15px; z-index: 1; flex-grow: 1; margin-bottom: 20px; }
+        
+        .bento-tags { display: flex; gap: 8px; flex-wrap: wrap; z-index: 1; margin-bottom: 20px; }
+        .b-tag { background: rgba(255,255,255,0.05); border: 1px solid var(--border-color); padding: 4px 10px; border-radius: 6px; font-size: 11px; font-weight: 600; color: var(--text-secondary); }
+        
+        .bento-btn {
+            display: inline-flex; align-items: center; gap: 8px; color: #fff; text-decoration: none;
+            font-size: 14px; font-weight: 600; padding: 10px 18px; border-radius: 12px;
+            background: rgba(255,255,255,0.05); border: 1px solid var(--border-color);
+            transition: 0.3s; z-index: 1; align-self: flex-start;
+        }
+        .bento-btn:hover { background: #fff; color: #000; }
+
+        /* =========================================
+           ABOUT SECTION (Yaratuvchi haqida)
+           ========================================= */
+        .about-wrap { display: grid; grid-template-columns: 1fr; gap: 40px; align-items: center; }
+        .about-visual { position: relative; display: flex; justify-content: center; }
+        .about-avatar {
+            width: 100%; max-width: 320px; aspect-ratio: 1; border-radius: 40px;
+            background: linear-gradient(145deg, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.1));
+            border: 1px solid var(--border-color); display: flex; justify-content: center; align-items: center;
+            font-family: 'Space Grotesk', sans-serif; font-size: 90px; font-weight: 700; color: rgba(255,255,255,0.8);
+            box-shadow: 0 0 50px rgba(59, 130, 246, 0.2); position: relative;
+        }
+        .about-avatar::after {
+            content: '5+ Yil tajriba'; position: absolute; bottom: -15px; right: -15px;
+            background: #fff; color: #000; padding: 10px 20px; border-radius: 12px;
+            font-size: 14px; font-weight: 700; box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+        }
+        .about-text h2 { font-family: 'Space Grotesk', sans-serif; font-size: 32px; font-weight: 700; margin-bottom: 16px; }
+        .about-text p { color: var(--text-secondary); font-size: 16px; margin-bottom: 24px; line-height: 1.8; }
+        .skills-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        .skill { display: flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 500; color: #d4d4d8; }
+        .skill-icon { color: var(--neon-green); }
+
+        /* =========================================
+           CTA SECTION (Murojaat)
+           ========================================= */
+        .cta-wrap { max-width: 1000px; margin: 0 auto; padding: 0 24px 100px; }
+        .cta-box {
+            background: linear-gradient(135deg, #1e3a8a, #4c1d95); border-radius: 40px;
+            padding: 60px 24px; text-align: center; position: relative; overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 20px 60px rgba(59, 130, 246, 0.2);
+        }
+        .cta-box::before {
+            content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 60%);
+            animation: rotate 15s linear infinite;
+        }
+        @keyframes rotate { 100% { transform: rotate(360deg); } }
+        .cta-content { position: relative; z-index: 1; }
+        .cta-content h2 { font-family: 'Space Grotesk', sans-serif; font-size: clamp(32px, 5vw, 48px); font-weight: 700; margin-bottom: 16px; }
+        .cta-content p { font-size: 16px; color: rgba(255,255,255,0.8); margin-bottom: 32px; max-width: 600px; margin-left: auto; margin-right: auto; }
+        .btn-cta {
+            background: #fff; color: #000; padding: 18px 40px; border-radius: 50px;
+            text-decoration: none; font-size: 16px; font-weight: 700; transition: 0.3s;
+            display: inline-flex; align-items: center; gap: 10px;
+        }
+        .btn-cta:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 15px 30px rgba(0,0,0,0.3); }
+
+        /* =========================================
+           FOOTER
+           ========================================= */
+        footer { border-top: 1px solid var(--border-color); padding: 40px 24px; text-align: center; color: var(--text-secondary); font-size: 14px; }
+
+        /* =========================================
+           ANIMATSIYALAR (Scroll Reveal)
+           ========================================= */
+        .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        /* =========================================
+           RESPONSIVE (Desktop va Planshetlar)
+           ========================================= */
+        @media (min-width: 768px) {
+            .nav-links { display: flex; }
+            .hero-btns { flex-direction: row; }
+            .hero-stats { gap: 80px; }
+            
+            /* Bento Grid tuzilishi (Apple uslubi) */
+            .bento-grid { grid-template-columns: repeat(2, 1fr); }
+            .bento-card:nth-child(1) { grid-column: span 2; } /* 1-karta keng */
+            .bento-card:nth-child(4) { grid-column: span 2; } /* 4-karta keng */
+            
+            .about-wrap { grid-template-columns: 1fr 1.2fr; gap: 60px; }
+            .cta-box { padding: 80px 40px; }
+        }
+
+        @media (min-width: 1024px) {
+            .bento-grid { grid-template-columns: repeat(3, 1fr); }
+            .bento-card:nth-child(1) { grid-column: span 2; }
+            .bento-card:nth-child(2) { grid-column: span 1; }
+            .bento-card:nth-child(3) { grid-column: span 1; }
+            .bento-card:nth-child(4) { grid-column: span 1; }
+            .bento-card:nth-child(5) { grid-column: span 1; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Orqa fon effektlari -->
+    <div class="bg-grid"></div>
+    <div class="bg-noise"></div>
+    <div class="glow-orb orb-1"></div>
+    <div class="glow-orb orb-2"></div>
+
+    <!-- NAVBAR -->
+    <nav>
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <div class="logo-box">JT</div>
+                Jasurbek Turayev
+            </a>
+            <div class="nav-links">
+                <a href="#about">Men haqimda</a>
+                <a href="#projects">Loyihalar</a>
+                <a href="#contact">Aloqa</a>
+            </div>
+            <a href="https://t.me/Asoschi_JT" class="btn-nav" target="_blank">Bog'lanish</a>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <header class="hero">
+        <div class="hero-badge">
+            <div class="badge-dot"></div>
+            Yangi loyihalar uchun ochiq
+        </div>
+        <h1>G'oyalarni <span class="gradient-text">Raqamli</span> Haqiqatga Aylantiraman</h1>
+        <p>Men Jasurbek Turayev. Sun'iy intellekt va ilg'or texnologiyalar yordamida biznesingizni avtomatlashtiraman. Mijozlaringiz Telegram'dan chiqmasdan buyurtma beradigan tizimlar yarataman.</p>
+        
+        <div class="hero-btns">
+            <a href="https://t.me/Asoschi_JT" class="btn-main" target="_blank">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                Loyihani muhokama qilish
+            </a>
+            <a href="#projects" class="btn-ghost">Loyihalarimni ko'rish</a>
+        </div>
+
+        <div class="hero-stats">
+            <div class="stat">
+                <h4>24/7</h4>
+                <p>Server ishlashi</p>
+            </div>
+            <div class="stat">
+                <h4>O'zbekcha</h4>
+                <p>Qulay interfeys</p>
+            </div>
+            <div class="stat">
+                <h4>100%</h4>
+                <p>Sifat kafolati</p>
+            </div>
+        </div>
+    </header>
+
+    <!-- ABOUT SECTION -->
+    <section class="section-padding reveal" id="about">
+        <div class="about-wrap">
+            <div class="about-visual">
+                <div class="about-avatar">JT</div>
+            </div>
+            <div class="about-text">
+                <h2 class="section-title" style="text-align: left; margin-bottom: 20px;">Yaratuvchi haqida</h2>
+                <h3 style="font-size: 20px; color: #fff; margin-bottom: 12px;">Assalomu alaykum, men Jasurbekman!</h3>
+                <p>Men sun'iy intellekt va Telegram botlari sohasidagi mutaxassisman. Oddiy va murakkab biznes g'oyalarini raqamli haqiqatga aylantirib, ularni avtomatlashtirish bilan shug'ullanaman. Mening maqsadim — sizning vaqtingizni tejaydigan va daromadingizni oshiradigan tizimlar yaratish.</p>
+                <div class="skills-grid">
+                    <div class="skill"><span class="skill-icon">✓</span> Python & Aiogram</div>
+                    <div class="skill"><span class="skill-icon">✓</span> Mini App (Frontend)</div>
+                    <div class="skill"><span class="skill-icon">✓</span> AI Integratsiya</div>
+                    <div class="skill"><span class="skill-icon">✓</span> Server & DevOps</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PROJECTS SECTION (BENTO GRID) -->
+    <section class="section-padding" id="projects">
+        <h2 class="section-title reveal">Mening Loyihalarim</h2>
+        <p class="section-subtitle reveal">Men yaratgan va muvaffaqiyatli ishlab turgan raqamli mahsulotlar.</p>
+        
+        <div class="bento-grid">
+            
+            <!-- 1. MILLIY AI (Katta karta) -->
+            <div class="bento-card reveal">
+                <div class="bento-icon">🤖</div>
+                <h3 class="bento-title">MILLIY AI</h3>
+                <p class="bento-desc">O'zbek tilidagi eng ilg'or va aqlli sun'iy intellekt. Kod yozish, matn yaratish va murakkab savollarga o'ylab javob berish uchun shaxsiy yordamchingiz. V3 va R1 rejimlari.</p>
+                <div class="bento-tags">
+                    <span class="b-tag">Python</span>
+                    <span class="b-tag">DeepSeek API</span>
+                    <span class="b-tag">Aiogram</span>
+                </div>
+                <a href="https://t.me/Milliy_Ai_uzbot" class="bento-btn" target="_blank">Sinab ko'rish →</a>
+            </div>
+
+            <!-- 2. JT VPN -->
+            <div class="bento-card reveal">
+                <div class="bento-icon">🛡️</div>
+                <h3 class="bento-title">JT VPN</h3>
+                <p class="bento-desc">Tezkor, xavfsiz va cheklovlarsiz internet. WireGuard protokoli orqali ishlaydigan premium VPN xizmati.</p>
+                <div class="bento-tags">
+                    <span class="b-tag">Docker</span>
+                    <span class="b-tag">WireGuard</span>
+                </div>
+                <a href="https://t.me/JT_VPN_BOT" class="bento-btn" target="_blank">Ulanish →</a>
+            </div>
+
+            <!-- 3. JT Akademiya -->
+            <div class="bento-card reveal">
+                <div class="bento-icon">🎓</div>
+                <h3 class="bento-title">JT Akademiya</h3>
+                <p class="bento-desc">AI yordamida sayt va botlar yaratishni o'rgatuvchi yopiq darslik.</p>
+                <div class="bento-tags">
+                    <span class="b-tag">Ta'lim</span>
+                    <span class="b-tag">Video</span>
+                </div>
+                <a href="https://t.me/JT_AKADEMIYA" class="bento-btn" target="_blank">O'rganish →</a>
+            </div>
+
+            <!-- 4. Avto Savdo Uz -->
+            <div class="bento-card reveal">
+                <div class="bento-icon">🚗</div>
+                <h3 class="bento-title">Avto Savdo Uz</h3>
+                <p class="bento-desc">Mashina e'lonlari bozori. Mahalliy va inomarka avtomobillari bo'yicha qulay qidiruv va e'lon berish tizimi.</p>
+                <div class="bento-tags">
+                    <span class="b-tag">SQLite</span>
+                    <span class="b-tag">Filtr</span>
+                </div>
+                <a href="https://t.me/Avto_Savdo_UzBot" class="bento-btn" target="_blank">Ko'rish →</a>
+            </div>
+
+            <!-- 5. Minni Yordamchi -->
+            <div class="bento-card reveal">
+                <div class="bento-icon">🧠</div>
+                <h3 class="bento-title">Minni Yordamchi</h3>
+                <p class="bento-desc">Har kuni kerak bo'ladigan vositalar (Valyuta, hujjat, o'yinlar) jamlangan Mini App.</p>
+                <div class="bento-tags">
+                    <span class="b-tag">Mini App</span>
+                    <span class="b-tag">PDF/DOCX</span>
+                </div>
+                <a href="https://t.me/Minni_Yordamchi_Bot" class="bento-btn" target="_blank">Foydalanish →</a>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- CTA SECTION -->
+    <section class="cta-wrap reveal" id="contact">
+        <div class="cta-box">
+            <div class="cta-content">
+                <h2>Botingiz haqida gaplashamizmi?</h2>
+                <p>G'oyangizni yozib yuboring: qanday biznes va bot nima qilishi kerak. Men sizga eng yaxshi yechimni taklif qilaman va taxminiy muddatni aytaman.</p>
+                <a href="https://t.me/Asoschi_JT" class="btn-cta" target="_blank">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                    Telegram'da yozish
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>© 2026 Jasurbek Turayev. Raqamli yechimlar markazi.</p>
+    </footer>
+
+    <!-- =========================================
+         JAVASCRIPT (Effektlar)
+         ========================================= -->
+    <script>
+        // 1. Spotlight (Nur) Effekti (Faqat Desktopda)
+        if (window.innerWidth > 768) {
+            const cards = document.querySelectorAll('.bento-card');
+            cards.forEach(card => {
+                card.onmousemove = e => {
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    card.style.setProperty('--mouse-x', `${x}px`);
+                    card.style.setProperty('--mouse-y', `${y}px`);
+                };
+            });
+        }
+
+        // 2. Scroll Reveal (Sayt pastga surilganda chiroyli chiqish)
+        const observerOptions = { threshold: 0.1, rootMargin: "0px 0px -50px 0px" };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    observer.unobserve(entry.target); // Bir marta ishlaydi
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal').forEach((el) => {
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
