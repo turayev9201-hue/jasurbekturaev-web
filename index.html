@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>Jasurbek Turayev | Raqamli Me'mor</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* =========================================
+           GLOBAL SOZLAMALAR VA NEON SHISHA EFFEKTI
+           ========================================= */
+        :root {
+            --bg-color: #02050f;
+            --text-main: #ffffff;
+            --text-muted: #64748b;
+            --neon-cyan: #00f3ff;
+            --neon-purple: #bc13fe;
+            
+            /* Shisha (Glassmorphism) sozlamalari */
+            --glass-bg: rgba(10, 20, 40, 0.3);
+            --glass-border: rgba(0, 243, 255, 0.3);
+            --glass-shadow: rgba(0, 243, 255, 0.1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; overflow-x: hidden; }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            cursor: none; 
+            width: 100%; max-width: 100vw;
+            background-image: 
+                radial-gradient(circle at 50% 0%, rgba(0, 243, 255, 0.08) 0%, transparent 60%),
+                radial-gradient(circle at 100% 100%, rgba(188, 19, 254, 0.08) 0%, transparent 60%);
+            background-attachment: fixed;
+        }
+
+        h1, h2, h3, .logo-text { 
+            font-family: 'Syne', sans-serif; 
+            overflow-wrap: break-word; 
+            text-wrap: balance; 
+        }
+
+        /* --- MAXSUS KURSOR --- */
+        .cursor {
+            position: fixed; top: 0; left: 0; width: 20px; height: 20px;
+            border: 1.5px solid var(--neon-cyan); border-radius: 50%;
+            pointer-events: none; z-index: 9999;
+            transform: translate(-50%, -50%); transition: width 0.2s, height 0.2s, background 0.2s;
+            box-shadow: 0 0 10px var(--neon-cyan);
+        }
+        .cursor-dot {
+            position: fixed; top: 0; left: 0; width: 4px; height: 4px;
+            background: var(--neon-cyan); border-radius: 50%; pointer-events: none; z-index: 10000;
+            transform: translate(-50%, -50%); box-shadow: 0 0 10px var(--neon-cyan);
+        }
+
+        /* --- NEYRON TARMOQ FONI --- */
+        #particle-canvas {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -3;
+        }
+
+        /* --- NAVBAR --- */
+        nav {
+            position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
+            width: calc(100% - 40px); max-width: 1200px; z-index: 1000;
+            /* Shisha effekti */
+            background: rgba(2, 5, 15, 0.4); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border); border-radius: 50px;
+            padding: 10px 20px; display: flex; justify-content: space-between; align-items: center;
+            transition: all 0.4s ease; box-shadow: 0 0 20px rgba(0, 243, 255, 0.15);
+        }
+        .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; color: #fff; }
+        .logo-box {
+            width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, var(--neon-cyan), var(--neon-purple));
+            display: flex; justify-content: center; align-items: center; font-weight: 800; font-size: 14px;
+            box-shadow: 0 0 15px var(--neon-cyan);
+        }
+        .logo-text { font-size: 16px; font-weight: 700; text-shadow: 0 0 10px rgba(255,255,255,0.3); }
+        .nav-links { display: none; gap: 30px; }
+        .nav-links a { color: var(--text-muted); text-decoration: none; font-size: 14px; font-weight: 500; transition: 0.3s; }
+        .nav-links a:hover { color: var(--neon-cyan); text-shadow: 0 0 10px var(--neon-cyan); }
+        
+        .btn-contact {
+            background: transparent; color: var(--neon-cyan); padding: 10px 20px; border-radius: 50px;
+            text-decoration: none; font-weight: 700; font-size: 14px; transition: all 0.3s ease;
+            display: inline-block; border: 1px solid var(--neon-cyan); box-shadow: inset 0 0 10px rgba(0, 243, 255, 0.1);
+        }
+        .btn-contact:hover { background: var(--neon-cyan); color: #000; box-shadow: 0 0 20px var(--neon-cyan); }
+
+        /* =========================================
+           HERO SECTION VA NEON INSON
+           ========================================= */
+        .hero {
+            min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center;
+            text-align: center; padding: 120px 20px 60px; position: relative; z-index: 1;
+            width: 100%; max-width: 100vw;
+        }
+        
+        .hero-badge {
+            display: inline-flex; align-items: center; gap: 10px;
+            background: var(--glass-bg); border: 1px solid var(--glass-border);
+            backdrop-filter: blur(10px);
+            padding: 6px 16px; border-radius: 50px; font-size: 12px; font-weight: 500;
+            color: var(--neon-cyan); margin-bottom: 20px;
+        }
+        .badge-dot { width: 8px; height: 8px; background: var(--neon-cyan); border-radius: 50%; box-shadow: 0 0 10px var(--neon-cyan); animation: pulse 2s infinite; }
+
+        /* --- NEON INSON (SVG) --- */
+        .human-container {
+            position: relative; width: 280px; height: 320px; margin: 0 auto 30px;
+            perspective: 1000px;
+        }
+        
+        .human-svg {
+            width: 100%; height: 100%; 
+            filter: drop-shadow(0 0 20px rgba(0, 243, 255, 0.5));
+            animation: floatHuman 5s ease-in-out infinite;
+            transition: transform 0.1s ease-out;
+            transform-style: preserve-3d;
+        }
+
+        .human-eye {
+            animation: blink 4s infinite;
+        }
+        .human-core {
+            animation: corePulse 2s infinite alternate;
+        }
+
+        @keyframes floatHuman {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+        @keyframes blink {
+            0%, 95%, 98% { opacity: 1; }
+            96%, 99% { opacity: 0.1; }
+        }
+        @keyframes corePulse {
+            0% { opacity: 0.6; filter: drop-shadow(0 0 10px #00f3ff); }
+            100% { opacity: 1; filter: drop-shadow(0 0 30px #bc13fe); }
+        }
+
+        /* --- SARLAVHA --- */
+        .hero h1 {
+            font-size: clamp(36px, 9vw, 100px); 
+            font-weight: 800; line-height: 1.1;
+            letter-spacing: -1px; margin-bottom: 20px; text-transform: uppercase;
+            text-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
+        }
+        .hero h1 .outline {
+            color: transparent; -webkit-text-stroke: 2px var(--neon-cyan);
+            text-shadow: 0 0 20px rgba(0, 243, 255, 0.4);
+        }
+        .hero p {
+            font-size: clamp(15px, 4vw, 20px); color: var(--text-muted);
+            max-width: 600px; margin: 0 auto 40px; font-weight: 400;
+        }
+
+        .hero-btns { display: flex; flex-direction: column; gap: 15px; width: 100%; max-width: 350px; }
+        .btn-primary, .btn-secondary {
+            padding: 16px 24px; border-radius: 50px; font-size: 15px; font-weight: 600;
+            text-decoration: none; display: flex; justify-content: center; align-items: center; gap: 10px;
+            transition: all 0.3s ease; border: 1px solid transparent; text-transform: uppercase; letter-spacing: 1px;
+            backdrop-filter: blur(10px);
+        }
+        .btn-primary { background: var(--neon-cyan); color: #000; box-shadow: 0 0 20px rgba(0, 243, 255, 0.4); }
+        .btn-primary:hover { background: #fff; transform: scale(1.05); box-shadow: 0 0 40px var(--neon-cyan); }
+        .btn-secondary { background: var(--glass-bg); color: #fff; border-color: var(--glass-border); }
+        .btn-secondary:hover { background: rgba(0, 243, 255, 0.1); border-color: var(--neon-cyan); transform: scale(1.05); box-shadow: 0 0 20px rgba(0, 243, 255, 0.2); }
+
+        /* --- SECTION WRAP (Shisha Panellar) --- */
+        .section-wrap { 
+            width: calc(100% - 40px); max-width: 1200px; margin: 0 auto 50px; padding: 60px 20px; 
+            position: relative; z-index: 1; 
+            background: var(--glass-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border); border-radius: 30px;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(0, 243, 255, 0.05);
+        }
+        
+        .section-title { font-size: clamp(28px, 7vw, 56px); font-weight: 800; margin-bottom: 15px; text-transform: uppercase; letter-spacing: -1px; color: #fff; text-shadow: 0 0 20px rgba(0, 243, 255, 0.3); }
+        
+        /* --- MEN HAQIMDA --- */
+        .about-grid { display: grid; grid-template-columns: 1fr; gap: 30px; align-items: center; }
+        .about-visual {
+            width: 100%; max-width: 350px; aspect-ratio: 1; border-radius: 30px; background: rgba(0,0,0,0.3);
+            border: 1px solid var(--glass-border); display: flex; justify-content: center; align-items: center;
+            font-size: 90px; font-weight: 800; font-family: 'Syne', sans-serif; position: relative;
+            box-shadow: 0 0 40px rgba(0, 243, 255, 0.1), inset 0 0 40px rgba(188, 19, 254, 0.1); overflow: hidden; margin: 0 auto;
+        }
+        .about-text p { color: #cbd5e1; font-size: 15px; margin-bottom: 25px; }
+        .tech-stack { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+        .tech-item { background: rgba(0, 243, 255, 0.05); border: 1px solid var(--glass-border); padding: 8px 16px; border-radius: 50px; font-size: 13px; font-weight: 600; color: var(--neon-cyan); }
+
+        /* --- MENING LOYIHALARIM --- */
+        .bento-grid { display: grid; grid-template-columns: 1fr; gap: 20px; margin-top: 40px; }
+        .project-card {
+            background: rgba(0, 0, 0, 0.4); border: 1px solid var(--glass-border); border-radius: 24px;
+            padding: 25px; display: flex; flex-direction: column; position: relative; overflow: hidden;
+            backdrop-filter: blur(20px); transform-style: preserve-3d; transition: all 0.3s;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5), inset 0 0 10px rgba(0, 243, 255, 0.05);
+        }
+        .project-card:hover { border-color: var(--neon-cyan); box-shadow: 0 0 30px rgba(0, 243, 255, 0.2), inset 0 0 20px rgba(0, 243, 255, 0.1); }
+        .project-card::before {
+            content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(800px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(0, 243, 255, 0.1), transparent 40%);
+            z-index: 0; opacity: 0; transition: opacity 0.5s; pointer-events: none;
+        }
+        .project-card:hover::before { opacity: 1; }
+
+        .proj-icon { font-size: 40px; margin-bottom: 15px; transform: translateZ(40px); transition: transform 0.3s; filter: drop-shadow(0 0 10px rgba(0,243,255,0.5)); }
+        .project-card:hover .proj-icon { transform: translateZ(60px) scale(1.1); }
+        .proj-title { font-size: 22px; font-weight: 800; margin-bottom: 8px; transform: translateZ(30px); color: #fff; }
+        .proj-desc { color: var(--text-muted); font-size: 14px; margin-bottom: 20px; flex-grow: 1; transform: translateZ(20px); }
+        .proj-btn {
+            background: transparent; color: var(--neon-cyan); padding: 10px 20px; border-radius: 10px;
+            text-decoration: none; font-weight: 700; font-size: 13px; display: inline-flex;
+            align-items: center; gap: 8px; align-self: flex-start; transform: translateZ(30px);
+            transition: 0.3s; border: 1px solid var(--neon-cyan);
+        }
+        .proj-btn:hover { background: var(--neon-cyan); color: #000; box-shadow: 0 0 15px var(--neon-cyan); }
+
+        /* --- CTA (Murojaat) --- */
+        .cta-section { 
+            padding: 80px 20px; text-align: center; position: relative; z-index: 1; 
+            width: calc(100% - 40px); max-width: 1200px; margin: 0 auto 50px;
+            background: linear-gradient(135deg, rgba(0, 243, 255, 0.1), rgba(188, 19, 254, 0.1));
+            border: 1px solid var(--glass-border); border-radius: 30px;
+            backdrop-filter: blur(20px); box-shadow: 0 0 30px rgba(0, 243, 255, 0.1);
+        }
+        .cta-section h2 { font-size: clamp(28px, 8vw, 64px); font-weight: 800; margin-bottom: 15px; text-transform: uppercase; color: #fff; text-shadow: 0 0 20px rgba(255,255,255,0.3); }
+        .btn-cta {
+            background: linear-gradient(135deg, var(--neon-cyan), var(--neon-purple)); color: #fff;
+            padding: 16px 40px; border-radius: 50px; font-size: 16px; font-weight: 800;
+            text-decoration: none; display: inline-flex; align-items: center; gap: 10px;
+            box-shadow: 0 0 30px rgba(0, 243, 255, 0.4); transition: 0.3s; text-transform: uppercase;
+        }
+        .btn-cta:hover { transform: translateY(-5px); box-shadow: 0 0 50px rgba(188, 19, 254, 0.6); }
+
+        footer { padding: 30px 20px; text-align: center; color: var(--text-muted); font-size: 13px; position: relative; z-index: 1; }
+
+        /* --- ANIMATSIYALAR --- */
+        .reveal { opacity: 0; transform: translateY(50px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        /* =========================================
+           RESPONSIVE
+           ========================================= */
+        @media (min-width: 768px) {
+            .nav-links { display: flex; }
+            .hero-btns { flex-direction: row; max-width: none; }
+            .hero h1 { letter-spacing: -4px; }
+            
+            .bento-grid { grid-template-columns: repeat(2, 1fr); }
+            .project-card:nth-child(1) { grid-column: span 2; }
+            .project-card:nth-child(4) { grid-column: span 2; }
+            
+            .about-grid { grid-template-columns: 1fr 1fr; gap: 50px; }
+            .about-visual { max-width: 100%; font-size: 120px; }
+            .tech-stack { justify-content: flex-start; }
+            .project-card { padding: 35px; }
+            .proj-icon { font-size: 50px; }
+            .proj-title { font-size: 26px; }
+            
+            .human-container { width: 350px; height: 400px; }
+            .section-wrap { width: calc(100% - 80px); padding: 80px 40px; }
+            .cta-section { width: calc(100% - 80px); padding: 100px 40px; }
+        }
+
+        @media (min-width: 1024px) {
+            .bento-grid { grid-template-columns: repeat(3, 1fr); }
+            .project-card:nth-child(1) { grid-column: span 2; }
+            .project-card:nth-child(2) { grid-column: span 1; }
+            .project-card:nth-child(3) { grid-column: span 1; }
+            .project-card:nth-child(4) { grid-column: span 1; }
+            .project-card:nth-child(5) { grid-column: span 1; }
+        }
+
+        @media (max-width: 768px) {
+            body { cursor: auto; }
+            .cursor, .cursor-dot { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="cursor"></div>
+    <div class="cursor-dot"></div>
+
+    <canvas id="particle-canvas"></canvas>
+
+    <!-- NAVBAR -->
+    <nav id="navbar">
+        <a href="#" class="logo">
+            <div class="logo-box">JT</div>
+            <div class="logo-text">Jasurbek</div>
+        </a>
+        <div class="nav-links">
+            <a href="#about">Men haqimda</a>
+            <a href="#projects">Loyihalar</a>
+            <a href="#contact">Aloqa</a>
+        </div>
+        <a href="https://t.me/Asoschi_JT" class="btn-contact magnetic" target="_blank">Bog'lanish</a>
+    </nav>
+
+    <!-- HERO (Neon Inson) -->
+    <header class="hero">
+        <div class="hero-badge reveal">
+            <div class="badge-dot"></div>
+            <span>Yangi loyihalar uchun ochiq</span>
+        </div>
+
+        <!-- NEON INSON (SVG) -->
+        <div class="human-container reveal" id="human-container">
+            <svg class="human-svg" id="human-svg" viewBox="0 0 200 250" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="neonGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#00f3ff"/>
+                        <stop offset="100%" stop-color="#bc13fe"/>
+                    </linearGradient>
+                    <filter id="neonFilter" x="-50%" y="-50%" width="200%" height="200%">
+                        <feGaussianBlur stdDeviation="3" result="blur" />
+                        <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                    </filter>
+                </defs>
+
+                <!-- Tana / Bo'yin qismi (Neon chiziqlar) -->
+                <path d="M 70 160 Q 70 150 85 150 L 115 150 Q 130 150 130 160 L 140 250 L 60 250 Z" fill="none" stroke="url(#neonGrad)" stroke-width="1.5" opacity="0.6"/>
+                <path d="M 80 160 L 120 160 M 75 180 L 125 180 M 70 200 L 130 200" stroke="url(#neonGrad)" stroke-width="0.5" opacity="0.3"/>
+                
+                <!-- Ko'krak markazi (Yurak) -->
+                <circle cx="100" cy="190" r="8" fill="none" stroke="url(#neonGrad)" stroke-width="2" class="human-core"/>
+                <circle cx="100" cy="190" r="3" fill="#00f3ff" filter="url(#neonFilter)"/>
+
+                <!-- INSON YUZI -->
+                <g id="human-head">
+                    <!-- Bosh suyagi tarmog'i (Wireframe) -->
+                    <path d="M 50 60 Q 50 20 100 20 Q 150 20 150 60 L 150 130 Q 150 160 100 160 Q 50 160 50 130 Z" fill="none" stroke="url(#neonGrad)" stroke-width="2" filter="url(#neonFilter)"/>
+                    
+                    <!-- Ichki yuz tarmoqlari (Yonoq suyaklari, iyak) -->
+                    <path d="M 60 60 L 140 60 M 55 90 L 145 90 M 60 120 L 140 120" stroke="url(#neonGrad)" stroke-width="0.5" opacity="0.4"/>
+                    <path d="M 75 30 L 75 150 M 100 20 L 100 160 M 125 30 L 125 150" stroke="url(#neonGrad)" stroke-width="0.5" opacity="0.4"/>
+                    
+                    <!-- Burun va yuz konturi -->
+                    <path d="M 100 70 L 100 100 L 110 110 L 90 110" fill="none" stroke="url(#neonGrad)" stroke-width="1.5" opacity="0.8"/>
+                    
+                    <!-- Ko'zlar (Neon nurli) -->
+                    <g class="human-eye">
+                        <path d="M 70 75 Q 80 65 90 75 Q 80 85 70 75 Z" fill="none" stroke="#00f3ff" stroke-width="2" filter="url(#neonFilter)"/>
+                        <path d="M 110 75 Q 120 65 130 75 Q 120 85 110 75 Z" fill="none" stroke="#00f3ff" stroke-width="2" filter="url(#neonFilter)"/>
+                        <circle cx="80" cy="75" r="2" fill="#fff" filter="url(#neonFilter)"/>
+                        <circle cx="120" cy="75" r="2" fill="#fff" filter="url(#neonFilter)"/>
+                    </g>
+
+                    <!-- Lablar -->
+                    <path d="M 85 130 Q 100 140 115 130" fill="none" stroke="url(#neonGrad)" stroke-width="1.5" opacity="0.7"/>
+                </g>
+
+                <!-- Pastga tushayotgan raqamli ma'lumotlar (Matrix effekti) -->
+                <line x1="80" y1="160" x2="80" y2="200" stroke="#00f3ff" stroke-width="1" opacity="0.5" stroke-dasharray="4 4" class="data-stream"/>
+                <line x1="120" y1="160" x2="120" y2="220" stroke="#bc13fe" stroke-width="1" opacity="0.5" stroke-dasharray="4 4" class="data-stream"/>
+            </svg>
+        </div>
+
+        <h1 class="reveal" id="scramble-text">
+            RAQAMLI <br> <span class="outline">ME'MOR</span>
+        </h1>
+        <p class="reveal">Men Jasurbek Turayev. Sun'iy intellekt va Telegram botlari orqali biznesingizni kelajakka olib chiqaman. G'oyalarni avtomatlashtirilgan haqiqatga aylantiraman.</p>
+        
+        <div class="hero-btns reveal">
+            <a href="https://t.me/Asoschi_JT" class="btn-primary magnetic" target="_blank">Loyihani boshlash</a>
+            <a href="#projects" class="btn-secondary">Loyihalarimni ko'rish</a>
+        </div>
+    </header>
+
+    <!-- MEN HAQIMDA (Shisha Panel) -->
+    <section class="section-wrap" id="about">
+        <div class="about-grid reveal">
+            <div class="about-visual">
+                <span style="position:relative; z-index:1; background: linear-gradient(135deg, #00f3ff, #bc13fe); -webkit-background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 0 20px rgba(0,243,255,0.4));">JT</span>
+            </div>
+            <div class="about-text">
+                <h2 class="section-title">Men haqimda</h2>
+                <p>Men oddiy dasturchi emasman. Men sizning biznesingizni 24/7 ishlaydigan avtonom tizimga aylantiruvchi raqamli me'morman. Telegram botlar, Mini Ilovalar va Sun'iy Intellekt integratsiyasi orqali mijozlaringizga eng qulay xizmatni yarataman.</p>
+                <div class="tech-stack">
+                    <span class="tech-item">Python</span>
+                    <span class="tech-item">Aiogram</span>
+                    <span class="tech-item">DeepSeek AI</span>
+                    <span class="tech-item">Docker</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MENING LOYIHALARIM (Shisha Panellar) -->
+    <section class="section-wrap" id="projects">
+        <h2 class="section-title reveal" style="text-align: center;">Mening loyihalarim</h2>
+        <p class="reveal" style="text-align: center; color: var(--text-muted); margin-bottom: 40px; font-size: 14px;">Men yaratgan va hozirda minglab insonlar foydalanayotgan tizimlar.</p>
+        
+        <div class="bento-grid">
+            
+            <div class="project-card reveal tilt-card">
+                <div class="proj-icon">🤖</div>
+                <h3 class="proj-title">MILLIY AI</h3>
+                <p class="proj-desc">O'zbek tilidagi eng ilg'or sun'iy intellekt. Kod yozish, matn yaratish va murakkab savollarga o'ylab javob berish uchun shaxsiy yordamchingiz.</p>
+                <a href="https://t.me/Milliy_Ai_uzbot" class="proj-btn magnetic" target="_blank">Sinab ko'rish ↗</a>
+            </div>
+
+            <div class="project-card reveal tilt-card">
+                <div class="proj-icon">🛡️</div>
+                <h3 class="proj-title">JT VPN</h3>
+                <p class="proj-desc">Tezkor, xavfsiz va cheklovlarsiz internet. WireGuard protokoli orqali ishlaydigan premium VPN xizmati.</p>
+                <a href="https://t.me/JT_VPN_BOT" class="proj-btn magnetic" target="_blank">Ulanish ↗</a>
+            </div>
+
+            <div class="project-card reveal tilt-card">
+                <div class="proj-icon">🎓</div>
+                <h3 class="proj-title">JT Akademiya</h3>
+                <p class="proj-desc">AI yordamida sayt va botlar yaratishni o'rgatuvchi yopiq darslik. Kelajak kasbini egallang.</p>
+                <a href="https://t.me/JT_AKADEMIYA" class="proj-btn magnetic" target="_blank">O'rganish ↗</a>
+            </div>
+
+            <div class="project-card reveal tilt-card">
+                <div class="proj-icon">🚗</div>
+                <h3 class="proj-title">Avto Savdo Uz</h3>
+                <p class="proj-desc">Mashina e'lonlari bozori. Mahalliy va inomarka avtomobillari bo'yicha qulay qidiruv va e'lon berish tizimi.</p>
+                <a href="https://t.me/Avto_Savdo_UzBot" class="proj-btn magnetic" target="_blank">Ko'rish ↗</a>
+            </div>
+
+            <div class="project-card reveal tilt-card">
+                <div class="proj-icon">🧠</div>
+                <h3 class="proj-title">Minni Yordamchi</h3>
+                <p class="proj-desc">Har kuni kerak bo'ladigan vositalar (Valyuta, hujjat, o'yinlar) jamlangan aqlli Mini App.</p>
+                <a href="https://t.me/Minni_Yordamchi_Bot" class="proj-btn magnetic" target="_blank">Foydalanish ↗</a>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- CTA (Shisha Panel) -->
+    <section class="cta-section" id="contact">
+        <h2 class="reveal">G'oyangiz bormi?</h2>
+        <p class="reveal" style="color: #cbd5e1; margin-bottom: 30px; padding: 0 10px;">Uni birgalikda raqamli oltin koniga aylantiramiz. Menga yozing.</p>
+        <a href="https://t.me/Asoschi_JT" class="btn-cta magnetic reveal" target="_blank">Telegram'da yozish</a>
+    </section>
+
+    <footer>
+        <p>© 2026 Jasurbek Turayev. Barcha huquqlar himoyalangan.</p>
+    </footer>
+
+    <!-- =========================================
+         JAVASCRIPT (Interaktiv Harakatlar)
+         ========================================= -->
+    <script>
+        // 1. MAXSUS KURSOR
+        if (window.innerWidth > 768) {
+            const cursor = document.querySelector('.cursor');
+            const cursorDot = document.querySelector('.cursor-dot');
+            window.addEventListener('mousemove', (e) => {
+                cursor.style.left = `${e.clientX}px`;
+                cursor.style.top = `${e.clientY}px`;
+                cursorDot.style.left = `${e.clientX}px`;
+                cursorDot.style.top = `${e.clientY}px`;
+                if (e.target.closest('a') || e.target.closest('button') || e.target.closest('.human-container')) {
+                    cursor.style.width = '50px'; cursor.style.height = '50px';
+                    cursor.style.background = 'rgba(0, 243, 255, 0.2)';
+                } else {
+                    cursor.style.width = '20px'; cursor.style.height = '20px';
+                    cursor.style.background = 'transparent';
+                }
+            });
+        }
+
+        // 2. NEYRON TARMOQ FONI
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+        let particlesArray = [];
+        let mouse = { x: null, y: null, radius: 150 };
+        canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+
+        window.addEventListener('mousemove', (e) => { mouse.x = e.x; mouse.y = e.y; });
+        window.addEventListener('mouseout', () => { mouse.x = null; mouse.y = null; });
+
+        class Particle {
+            constructor(x, y, dx, dy, size) {
+                this.x = x; this.y = y; this.dx = dx; this.dy = dy; this.size = size;
+            }
+            draw() {
+                ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2, false);
+                ctx.fillStyle = 'rgba(0, 243, 255, 0.4)'; ctx.fill();
+            }
+            update() {
+                if (this.x > canvas.width || this.x < 0) this.dx = -this.dx;
+                if (this.y > canvas.height || this.y < 0) this.dy = -this.dy;
+                let dx = mouse.x - this.x; let dy = mouse.y - this.y;
+                let distance = Math.sqrt(dx * dx + dy * dy);
+                if (distance < mouse.radius + this.size) {
+                    if (mouse.x < this.x && this.x < canvas.width - this.size * 10) this.x += 3;
+                    if (mouse.x > this.x && this.x > this.size * 10) this.x -= 3;
+                    if (mouse.y < this.y && this.y < canvas.height - this.size * 10) this.y += 3;
+                    if (mouse.y > this.y && this.y > this.size * 10) this.y -= 3;
+                }
+                this.x += this.dx; this.y += this.dy; this.draw();
+            }
+        }
+
+        function initCanvas() {
+            particlesArray = [];
+            let num = (canvas.height * canvas.width) / 12000;
+            if(window.innerWidth < 768) num = num / 3;
+            for (let i = 0; i < num; i++) {
+                let size = (Math.random() * 2) + 0.5;
+                let x = (Math.random() * ((innerWidth - size * 2) - (size * 2)) + size * 2);
+                let y = (Math.random() * ((innerHeight - size * 2) - (size * 2)) + size * 2);
+                let dx = (Math.random() * 0.5) - 0.25; let dy = (Math.random() * 0.5) - 0.25;
+                particlesArray.push(new Particle(x, y, dx, dy, size));
+            }
+        }
+
+        function connect() {
+            for (let a = 0; a < particlesArray.length; a++) {
+                for (let b = a; b < particlesArray.length; b++) {
+                    let distance = ((particlesArray[a].x - particlesArray[b].x) * (particlesArray[a].x - particlesArray[b].x)) + 
+                                   ((particlesArray[a].y - particlesArray[b].y) * (particlesArray[a].y - particlesArray[b].y));
+                    if (distance < (canvas.width / 10) * (canvas.height / 10)) {
+                        let opacity = 1 - (distance / 20000);
+                        ctx.strokeStyle = `rgba(0, 243, 255, ${opacity * 0.15})`;
+                        ctx.lineWidth = 1; ctx.beginPath();
+                        ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
+                        ctx.lineTo(particlesArray[b].x, particlesArray[b].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+            ctx.clearRect(0, 0, innerWidth, innerHeight);
+            for (let i = 0; i < particlesArray.length; i++) particlesArray[i].update();
+            connect();
+        }
+
+        window.addEventListener('resize', () => {
+            canvas.width = innerWidth; canvas.height = innerHeight; initCanvas();
+        });
+        initCanvas(); animate();
+
+        // 3. TEXT SCRAMBLE (Matn shifrlanishi)
+        class TextScramble {
+            constructor(el) { this.el = el; this.chars = '!<>-_\\/[]{}—=+*^?#________'; this.update = this.update.bind(this); }
+            setText(newText) {
+                const oldText = this.el.innerText;
+                const length = Math.max(oldText.length, newText.length);
+                const promise = new Promise((resolve) => this.resolve = resolve);
+                this.queue = [];
+                for (let i = 0; i < length; i++) {
+                    const from = oldText[i] || ''; const to = newText[i] || '';
+                    const start = Math.floor(Math.random() * 40); const end = start + Math.floor(Math.random() * 40);
+                    this.queue.push({ from, to, start, end });
+                }
+                cancelAnimationFrame(this.frameRequest); this.frame = 0; this.update(); return promise;
+            }
+            update() {
+                let output = ''; let complete = 0;
+                for (let i = 0, n = this.queue.length; i < n; i++) {
+                    let { from, to, start, end, char } = this.queue[i];
+                    if (this.frame >= end) { complete++; output += to; }
+                    else if (this.frame >= start) {
+                        if (!char || Math.random() < 0.28) { char = this.randomChar(); this.queue[i].char = char; }
+                        output += `<span style="color:var(--neon-cyan); opacity:0.5">${char}</span>`;
+                    } else { output += from; }
+                }
+                this.el.innerHTML = output;
+                if (complete === this.queue.length) { this.resolve(); }
+                else { this.frameRequest = requestAnimationFrame(this.update); this.frame++; }
+            }
+            randomChar() { return this.chars[Math.floor(Math.random() * this.chars.length)]; }
+        }
+
+        const el = document.getElementById('scramble-text');
+        const originalText = "RAQAMLI ME'MOR"; 
+        setTimeout(() => { const fx = new TextScramble(el); fx.setText(originalText); }, 500);
+
+        // 4. NEON INSONNING HARAKATLANISHI (3D Tilt)
+        const humanSvg = document.getElementById('human-svg');
+        
+        if (window.innerWidth > 768) {
+            document.addEventListener('mousemove', (e) => {
+                const xAxis = (window.innerWidth / 2 - e.pageX) / 20; // Burilish darajasi
+                const yAxis = (window.innerHeight / 2 - e.pageY) / 20;
+                humanSvg.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
+            });
+            document.addEventListener('mouseleave', () => {
+                humanSvg.style.transform = `rotateY(0deg) rotateX(0deg)`;
+                humanSvg.style.transition = "transform 0.5s ease";
+            });
+            document.addEventListener('mouseenter', () => {
+                humanSvg.style.transition = "transform 0.1s ease-out";
+            });
+        }
+
+        // 5. SCROLL REVEAL
+        const revealElements = document.querySelectorAll('.reveal');
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) { entry.target.classList.add('active'); revealObserver.unobserve(entry.target); }
+            });
+        }, { threshold: 0.15 });
+        revealElements.forEach(el => revealObserver.observe(el));
+
+        // 6. MAGNETIC BUTTONS
+        if (window.innerWidth > 768) {
+            const magneticBtns = document.querySelectorAll('.magnetic');
+            magneticBtns.forEach(btn => {
+                btn.addEventListener('mousemove', (e) => {
+                    const rect = btn.getBoundingClientRect();
+                    const x = e.clientX - rect.left - rect.width / 2;
+                    const y = e.clientY - rect.top - rect.height / 2;
+                    btn.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
+                });
+                btn.addEventListener('mouseleave', () => { btn.style.transform = `translate(0px, 0px)`; btn.style.transition = 'transform 0.3s ease'; });
+                btn.addEventListener('mouseenter', () => { btn.style.transition = 'transform 0.1s ease'; });
+            });
+        }
+
+        // 7. 3D TILT CARDS & SPOTLIGHT
+        if (window.innerWidth > 768) {
+            const cards = document.querySelectorAll('.project-card');
+            cards.forEach(card => {
+                card.addEventListener('mousemove', (e) => {
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left; const y = e.clientY - rect.top;
+                    const centerX = rect.width / 2; const centerY = rect.height / 2;
+                    const rotateX = ((y - centerY) / centerY) * -5; const rotateY = ((x - centerX) / centerX) * 5;
+                    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+                    card.style.setProperty('--mouse-x', `${x}px`); card.style.setProperty('--mouse-y', `${y}px`);
+                });
+                card.addEventListener('mouseleave', () => {
+                    card.style.transform = `perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)`;
+                    card.style.transition = 'transform 0.5s ease';
+                });
+                card.addEventListener('mouseenter', () => { card.style.transition = 'none'; });
+            });
+        }
+
+        // 8. NAVBAR SCROLL
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.style.background = 'rgba(2, 5, 15, 0.8)'; navbar.style.top = '0';
+                navbar.style.width = '100%'; navbar.style.borderRadius = '0';
+                navbar.style.borderTop = 'none'; navbar.style.borderLeft = 'none'; navbar.style.borderRight = 'none';
+            } else {
+                navbar.style.background = 'rgba(2, 5, 15, 0.4)'; navbar.style.top = '20px';
+                navbar.style.width = 'calc(100% - 40px)'; navbar.style.borderRadius = '50px';
+                navbar.style.border = '1px solid rgba(0, 243, 255, 0.3)';
+            }
+        });
+    </script>
+</body>
+</html>
