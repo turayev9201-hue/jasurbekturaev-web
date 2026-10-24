@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>Jasurbek Turayev | Neumorphism</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* =========================================
+           NEUMORPHISM (SOFT UI) SOZLAMALARI
+           ========================================= */
+        :root {
+            /* Fon va soyalar uchun asosiy ranglar */
+            --bg-color: #1e2126; 
+            --shadow-dark: #141619;
+            --shadow-light: #282c33;
+            
+            /* Matn ranglari */
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            
+            /* Aksent ranglar (Tugmalar va ikonkalar uchun) */
+            --accent-cyan: #38bdf8;
+            --accent-purple: #a78bfa;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; overflow-x: hidden; }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Nunito', sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+            /* Kursor oddiy qoladi, chunki Neumorphism o'ziga xos tinchlikni talab qiladi */
+        }
+
+        h1, h2, h3, .logo-text { font-family: 'Syne', sans-serif; }
+
+        /* --- NAVBAR --- */
+        nav {
+            position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
+            width: calc(100% - 40px); max-width: 1100px; z-index: 1000;
+            /* Neumorphism effekti: Bo'rtib chiqqan */
+            background: var(--bg-color);
+            box-shadow: 8px 8px 16px var(--shadow-dark), -8px -8px 16px var(--shadow-light);
+            border-radius: 50px; padding: 12px 25px;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--text-main); }
+        .logo-icon {
+            width: 40px; height: 40px; border-radius: 50%;
+            display: flex; justify-content: center; align-items: center;
+            font-weight: 800; font-size: 16px; color: var(--accent-cyan);
+            /* Ichkariga botirilgan effekt */
+            box-shadow: inset 4px 4px 8px var(--shadow-dark), inset -4px -4px 8px var(--shadow-light);
+        }
+        .logo-text { font-size: 18px; font-weight: 700; }
+        .nav-links { display: none; gap: 30px; }
+        .nav-links a { color: var(--text-muted); text-decoration: none; font-size: 15px; font-weight: 600; transition: 0.3s; }
+        .nav-links a:hover { color: var(--text-main); }
+        
+        .btn-contact {
+            background: var(--bg-color); color: var(--text-main); padding: 10px 22px; border-radius: 30px;
+            text-decoration: none; font-weight: 700; font-size: 14px; transition: all 0.3s ease;
+            box-shadow: 4px 4px 8px var(--shadow-dark), -4px -4px 8px var(--shadow-light);
+        }
+        .btn-contact:hover {
+            color: var(--accent-cyan);
+            box-shadow: inset 4px 4px 8px var(--shadow-dark), inset -4px -4px 8px var(--shadow-light);
+        }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center;
+            text-align: center; padding: 120px 20px 60px; position: relative;
+        }
+        
+        /* Robot uchun Neumorphism idish */
+        .robot-container {
+            width: 220px; height: 220px; border-radius: 50%;
+            display: flex; justify-content: center; align-items: center;
+            margin-bottom: 40px; position: relative;
+            box-shadow: 12px 12px 24px var(--shadow-dark), -12px -12px 24px var(--shadow-light);
+            animation: float 4s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        .robot-svg { width: 130px; height: 130px; }
+
+        .hero h1 {
+            font-size: clamp(36px, 8vw, 80px); font-weight: 800; line-height: 1.1;
+            letter-spacing: -1px; text-transform: uppercase; margin-bottom: 20px;
+            color: var(--text-main); text-shadow: 2px 2px 4px var(--shadow-dark);
+        }
+        .hero h1 span {
+            color: transparent; -webkit-text-stroke: 1px var(--accent-cyan);
+        }
+        
+        .hero p {
+            font-size: clamp(15px, 3vw, 18px); color: var(--text-muted);
+            max-width: 600px; margin: 0 auto 40px; font-weight: 400;
+        }
+
+        /* Tugmalar */
+        .hero-btns { display: flex; flex-direction: column; gap: 20px; width: 100%; max-width: 350px; }
+        .btn-primary, .btn-secondary {
+            padding: 18px 30px; border-radius: 20px; font-size: 16px; font-weight: 700;
+            text-decoration: none; display: flex; justify-content: center; align-items: center; gap: 10px;
+            transition: all 0.3s ease; text-transform: uppercase; letter-spacing: 1px;
+        }
+        
+        /* Bo'rtib chiqqan tugma */
+        .btn-primary {
+            background: var(--bg-color); color: var(--accent-cyan);
+            box-shadow: 6px 6px 12px var(--shadow-dark), -6px -6px 12px var(--shadow-light);
+        }
+        .btn-primary:hover {
+            /* Bosilganda ichkariga botirilgan effekt */
+            box-shadow: inset 6px 6px 12px var(--shadow-dark), inset -6px -6px 12px var(--shadow-light);
+        }
+        
+        .btn-secondary {
+            background: var(--bg-color); color: var(--text-muted);
+            box-shadow: 6px 6px 12px var(--shadow-dark), -6px -6px 12px var(--shadow-light);
+        }
+        .btn-secondary:hover {
+            color: var(--text-main);
+            box-shadow: inset 6px 6px 12px var(--shadow-dark), inset -6px -6px 12px var(--shadow-light);
+        }
+
+        /* --- BO'LIMLAR (Cards & Grid) --- */
+        .section-wrap { 
+            width: calc(100% - 40px); max-width: 1100px; margin: 0 auto 80px; padding: 40px 0; 
+            position: relative; 
+        }
+        
+        .section-title { 
+            font-size: clamp(28px, 5vw, 45px); font-weight: 800; margin-bottom: 40px; 
+            text-transform: uppercase; color: var(--text-main); text-align: center;
+        }
+        
+        /* Men haqimda */
+        .about-grid { display: grid; grid-template-columns: 1fr; gap: 40px; align-items: center; }
+        .about-visual {
+            width: 200px; height: 200px; border-radius: 40px; margin: 0 auto;
+            display: flex; justify-content: center; align-items: center;
+            font-size: 80px; font-weight: 800; font-family: 'Syne', sans-serif; color: var(--accent-cyan);
+            box-shadow: 10px 10px 20px var(--shadow-dark), -10px -10px 20px var(--shadow-light);
+        }
+        .about-text p { color: var(--text-muted); font-size: 17px; margin-bottom: 30px; line-height: 1.8; }
+        
+        .tech-stack { display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; }
+        .tech-item { 
+            background: var(--bg-color); padding: 12px 20px; border-radius: 15px;
+            font-size: 14px; font-weight: 700; color: var(--text-main);
+            box-shadow: 4px 4px 8px var(--shadow-dark), -4px -4px 8px var(--shadow-light);
+        }
+
+        /* Mening loyihalarim */
+        .bento-grid { display: grid; grid-template-columns: 1fr; gap: 30px; }
+        .project-card {
+            background: var(--bg-color); border-radius: 30px; padding: 40px;
+            display: flex; flex-direction: column; position: relative; transition: all 0.4s ease;
+            box-shadow: 10px 10px 20px var(--shadow-dark), -10px -10px 20px var(--shadow-light);
+        }
+        
+        /* Hoverda ichkariga botirish (Tactile effekt) */
+        .project-card:hover {
+            box-shadow: inset 8px 8px 16px var(--shadow-dark), inset -8px -8px 16px var(--shadow-light);
+        }
+        
+        /* Ikonkalar uchun idish */
+        .proj-icon-wrap {
+            width: 70px; height: 70px; border-radius: 20px;
+            display: flex; justify-content: center; align-items: center;
+            font-size: 35px; margin-bottom: 20px;
+            box-shadow: inset 4px 4px 8px var(--shadow-dark), inset -4px -4px 8px var(--shadow-light);
+        }
+
+        .proj-title { font-size: 24px; font-weight: 800; margin-bottom: 12px; color: var(--text-main); }
+        .proj-desc { color: var(--text-muted); font-size: 16px; margin-bottom: 30px; flex-grow: 1; }
+        
+        .proj-btn {
+            background: var(--bg-color); color: var(--accent-purple); padding: 14px 24px; border-radius: 15px;
+            text-decoration: none; font-weight: 800; font-size: 14px; display: inline-flex;
+            align-items: center; gap: 10px; align-self: flex-start; transition: 0.3s;
+            box-shadow: 4px 4px 8px var(--shadow-dark), -4px -4px 8px var(--shadow-light);
+        }
+        .project-card:hover .proj-btn {
+            box-shadow: inset 4px 4px 8px var(--shadow-dark), inset -4px -4px 8px var(--shadow-light);
+        }
+
+        /* CTA */
+        .cta-section { 
+            padding: 60px 30px; text-align: center; border-radius: 40px;
+            width: calc(100% - 40px); max-width: 1100px; margin: 0 auto 60px;
+            box-shadow: 12px 12px 24px var(--shadow-dark), -12px -12px 24px var(--shadow-light);
+        }
+        .cta-section h2 { font-size: clamp(28px, 6vw, 45px); font-weight: 800; margin-bottom: 20px; color: var(--text-main); }
+        
+        .btn-cta {
+            background: var(--bg-color); color: var(--accent-cyan);
+            padding: 20px 50px; border-radius: 20px; font-size: 18px; font-weight: 800;
+            text-decoration: none; display: inline-flex; align-items: center; gap: 10px;
+            transition: 0.3s; box-shadow: 6px 6px 12px var(--shadow-dark), -6px -6px 12px var(--shadow-light);
+        }
+        .btn-cta:hover { box-shadow: inset 6px 6px 12px var(--shadow-dark), inset -6px -6px 12px var(--shadow-light); }
+
+        footer { padding: 30px 20px; text-align: center; color: var(--text-muted); font-size: 14px; }
+
+        /* Responsive */
+        @media (min-width: 768px) {
+            .nav-links { display: flex; }
+            .hero-btns { flex-direction: row; justify-content: center; max-width: none; }
+            .robot-container { width: 280px; height: 280px; }
+            .robot-svg { width: 160px; height: 160px; }
+            
+            .bento-grid { grid-template-columns: repeat(2, 1fr); }
+            .project-card:nth-child(1) { grid-column: span 2; }
+            .project-card:nth-child(4) { grid-column: span 2; }
+            
+            .about-grid { grid-template-columns: 1fr 1.5fr; gap: 60px; }
+            .about-visual { width: 280px; height: 280px; margin: 0; font-size: 120px; }
+            .tech-stack { justify-content: flex-start; }
+        }
+        @media (min-width: 1024px) {
+            .bento-grid { grid-template-columns: repeat(3, 1fr); }
+            .project-card:nth-child(1) { grid-column: span 2; }
+            .project-card:nth-child(2) { grid-column: span 1; }
+            .project-card:nth-child(3) { grid-column: span 1; }
+            .project-card:nth-child(4) { grid-column: span 1; }
+            .project-card:nth-child(5) { grid-column: span 1; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav>
+        <a href="#" class="logo">
+            <div class="logo-icon">JT</div>
+            <div class="logo-text">Jasurbek</div>
+        </a>
+        <div class="nav-links">
+            <a href="#about">Men haqimda</a>
+            <a href="#projects">Loyihalar</a>
+            <a href="#contact">Aloqa</a>
+        </div>
+        <a href="https://t.me/Asoschi_JT" class="btn-contact" target="_blank">Bog'lanish</a>
+    </nav>
+
+    <!-- HERO -->
+    <header class="hero">
+        
+        <!-- Soft UI Robot -->
+        <div class="robot-container">
+            <svg class="robot-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <!-- Bosh -->
+                <rect x="20" y="20" width="60" height="50" rx="15" fill="#1e2126" stroke="#38bdf8" stroke-width="2"/>
+                <rect x="20" y="20" width="60" height="50" rx="15" fill="transparent" stroke="#141619" stroke-width="1" stroke-dasharray="2 2"/>
+                <!-- Ko'zlar -->
+                <circle cx="40" cy="45" r="5" fill="#38bdf8"/>
+                <circle cx="60" cy="45" r="5" fill="#38bdf8"/>
+                <!-- Og'iz -->
+                <rect x="40" y="55" width="20" height="4" rx="2" fill="#a78bfa"/>
+                <!-- Quloqlar -->
+                <rect x="10" y="35" width="10" height="20" rx="4" fill="#1e2126" stroke="#141619" stroke-width="1"/>
+                <rect x="80" y="35" width="10" height="20" rx="4" fill="#1e2126" stroke="#141619" stroke-width="1"/>
+                <!-- Antenna -->
+                <line x1="50" y1="20" x2="50" y2="5" stroke="#141619" stroke-width="3"/>
+                <circle cx="50" cy="5" r="4" fill="#38bdf8"/>
+            </svg>
+        </div>
+
+        <h1>
+            RAQAMLI <br> <span>ME'MOR</span>
+        </h1>
+        <p>Men Jasurbek Turayev. Sun'iy intellekt va Telegram botlari orqali biznesingizni kelajakka olib chiqaman. G'oyalarni avtomatlashtirilgan haqiqatga aylantiraman.</p>
+        
+        <div class="hero-btns">
+            <a href="https://t.me/Asoschi_JT" class="btn-primary" target="_blank">Loyihani boshlash</a>
+            <a href="#projects" class="btn-secondary">Loyihalarimni ko'rish</a>
+        </div>
+    </header>
+
+    <!-- MEN HAQIMDA -->
+    <section class="section-wrap" id="about">
+        <div class="about-grid">
+            <div class="about-visual">JT</div>
+            <div class="about-text">
+                <h2 class="section-title" style="text-align: left;">Men haqimda</h2>
+                <p>Men oddiy dasturchi emasman. Men sizning biznesingizni 24/7 ishlaydigan avtonom tizimga aylantiruvchi raqamli me'morman. Telegram botlar, Mini Ilovalar va Sun'iy Intellekt integratsiyasi orqali mijozlaringizga eng qulay xizmatni yarataman.</p>
+                <div class="tech-stack">
+                    <span class="tech-item">Python</span>
+                    <span class="tech-item">Aiogram</span>
+                    <span class="tech-item">DeepSeek AI</span>
+                    <span class="tech-item">Docker</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MENING LOYIHALARIM -->
+    <section class="section-wrap" id="projects">
+        <h2 class="section-title">Mening loyihalarim</h2>
+        
+        <div class="bento-grid">
+            <!-- MILLIY AI -->
+            <div class="project-card">
+                <div class="proj-icon-wrap">🤖</div>
+                <h3 class="proj-title">MILLIY AI</h3>
+                <p class="proj-desc">O'zbek tilidagi eng ilg'or sun'iy intellekt. Kod yozish, matn yaratish va murakkab savollarga o'ylab javob berish uchun shaxsiy yordamchingiz.</p>
+                <a href="https://t.me/Milliy_Ai_uzbot" class="proj-btn" target="_blank">Sinab ko'rish ↗</a>
+            </div>
+
+            <!-- JT VPN -->
+            <div class="project-card">
+                <div class="proj-icon-wrap">🛡️</div>
+                <h3 class="proj-title">JT VPN</h3>
+                <p class="proj-desc">Tezkor, xavfsiz va cheklovlarsiz internet. WireGuard protokoli orqali ishlaydigan premium VPN xizmati.</p>
+                <a href="https://t.me/JT_VPN_BOT" class="proj-btn" target="_blank">Ulanish ↗</a>
+            </div>
+
+            <!-- JT Akademiya -->
+            <div class="project-card">
+                <div class="proj-icon-wrap">🎓</div>
+                <h3 class="proj-title">JT Akademiya</h3>
+                <p class="proj-desc">AI yordamida sayt va botlar yaratishni o'rgatuvchi yopiq darslik. Kelajak kasbini egallang.</p>
+                <a href="https://t.me/JT_AKADEMIY_UZBOT" class="proj-btn" target="_blank">O'rganish ↗</a>
+            </div>
+
+            <!-- Avto Savdo Uz -->
+            <div class="project-card">
+                <div class="proj-icon-wrap">🚗</div>
+                <h3 class="proj-title">Avto Savdo Uz</h3>
+                <p class="proj-desc">Mashina e'lonlari bozori. Mahalliy va inomarka avtomobillari bo'yicha qulay qidiruv va e'lon berish tizimi.</p>
+                <a href="https://t.me/Avto_Savdo_UzBot" class="proj-btn" target="_blank">Ko'rish ↗</a>
+            </div>
+
+            <!-- Minni Yordamchi -->
+            <div class="project-card">
+                <div class="proj-icon-wrap">🧠</div>
+                <h3 class="proj-title">Minni Yordamchi</h3>
+                <p class="proj-desc">Har kuni kerak bo'ladigan vositalar (Valyuta, hujjat, o'yinlar) jamlangan aqlli Mini App.</p>
+                <a href="https://t.me/Minni_Yordamchi_Bot" class="proj-btn" target="_blank">Foydalanish ↗</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section" id="contact">
+        <h2>G'oyangiz bormi?</h2>
+        <p style="color: var(--text-muted); margin-bottom: 30px;">Uni birgalikda raqamli oltin koniga aylantiramiz. Menga yozing.</p>
+        <a href="https://t.me/Asoschi_JT" class="btn-cta" target="_blank">Telegram'da yozish</a>
+    </section>
+
+    <footer>
+        <p>© 2026 Jasurbek Turayev. Barcha huquqlar himoyalangan.</p>
+    </footer>
+
+</body>
+</html>
