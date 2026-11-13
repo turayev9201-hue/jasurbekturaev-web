@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Jasurbek Turaev | Telegram bot va mini app yaratuvchi</title>
+<meta name="description" content="Jasurbek Turaev — Telegram botlar, mini app va veb-saytlar yaratuvchi. Restoran, kafe, onlayn do'kon va yopiq darslar uchun tayyor yechimlar.">
+<meta name="author" content="Jasurbek Turaev">
+<meta name="theme-color" content="#0a0928">
+<link rel="canonical" href="https://jasurbekturaev.com/">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="uz_UZ">
+<meta property="og:site_name" content="Jasurbek Turaev">
+<meta property="og:title" content="Jasurbek Turaev — Telegram bot va mini app yaratuvchi">
+<meta property="og:description" content="Biznesingiz uchun Telegram bot, mini app va veb-sayt. Bog'lanish: @Asoschi_JT">
+<meta property="og:url" content="https://jasurbekturaev.com/">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='24' fill='%235b4bff'/><text x='50' y='66' font-size='46' font-weight='700' text-anchor='middle' fill='white' font-family='sans-serif'>JT</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Person","name":"Jasurbek Turaev","url":"https://jasurbekturaev.com","jobTitle":"Telegram bot va mini app yaratuvchi","sameAs":["https://t.me/Asoschi_JT","https://t.me/digital_memory_uz"]}
+</script>
+<style>
+:root{--bg:#f6f7ff;--card:#fff;--ink:#1a1a3a;--muted:#5a5e82;--line:#e7e9f6;--brand:#5b4bff;--brand2:#b23cff;--d1:#0a0928;--d2:#2b1b97;--shadow:0 12px 34px rgba(60,50,160,.1);--r:22px}
+*,*::before,*::after{box-sizing:border-box}
+*{margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:84px}
+body{font-family:Poppins,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--ink);line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+button,input,textarea,select{font:inherit;color:inherit}
+img,svg{max-width:100%}
+:focus-visible{outline:3px solid #ffb703;outline-offset:3px;border-radius:6px}
+.skip{position:absolute;left:12px;top:-60px;background:#fff;color:var(--ink);padding:10px 16px;border-radius:10px;z-index:100;font-weight:600}
+.skip:focus{top:12px}
+.wrap{max-width:1160px;margin:0 auto;padding:0 22px}
+.ico{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.grad{background:linear-gradient(90deg,#4ea8ff,#a53cff 55%,#ff4fd8);-webkit-background-clip:text;background-clip:text;color:transparent}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:14px 26px;border-radius:14px;font-weight:600;font-size:.95rem;border:1.5px solid transparent;transition:transform .2s,box-shadow .2s,background .2s;cursor:pointer}
+.btn:hover{transform:translateY(-2px)}
+.btn-primary{background:linear-gradient(90deg,var(--brand),var(--brand2));color:#fff;box-shadow:0 10px 26px rgba(120,60,255,.45)}
+.btn-ghost{border-color:rgba(255,255,255,.35);color:#fff;background:rgba(255,255,255,.04)}
+.btn-ghost:hover{background:rgba(255,255,255,.14)}
+.tag{display:inline-block;background:#ece8ff;color:#4a3bdc;font-size:.76rem;font-weight:600;padding:5px 14px;border-radius:99px}
+
+/* NAV */
+.nav{position:fixed;inset:0 0 auto 0;z-index:50;transition:background .3s,box-shadow .3s}
+.nav.sc,.nav.open{background:rgba(10,9,40,.88);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+.nav.sc{box-shadow:0 6px 24px rgba(0,0,0,.25)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;height:74px;gap:16px;color:#fff}
+.logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:1.08rem}
+.logo i{width:36px;height:36px;border-radius:11px;background:linear-gradient(135deg,var(--brand),var(--brand2));display:grid;place-items:center;font-style:normal;font-size:.8rem;font-weight:800;color:#fff}
+.menu{display:flex;gap:30px;list-style:none;font-size:.92rem;font-weight:500}
+.menu a{opacity:.8;padding:6px 0;border-bottom:2px solid transparent;transition:opacity .2s,border-color .2s}
+.menu a:hover,.menu a.act{opacity:1;border-color:#a78bfa}
+.nav .btn{padding:10px 20px;font-size:.88rem}
+.burger{display:none;background:none;border:0;color:#fff;width:44px;height:44px;font-size:1.6rem;cursor:pointer}
+
+/* HERO */
+.hero{position:relative;background:radial-gradient(ellipse at 78% 35%,#5a32f0 0,transparent 55%),radial-gradient(circle at 10% 90%,#3a1aa8 0,transparent 45%),linear-gradient(165deg,var(--d1),var(--d2));color:#fff;padding:140px 0 130px;border-radius:0 0 48px 48px;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.12) 1px,transparent 1.5px);background-size:30px 30px;-webkit-mask-image:linear-gradient(90deg,transparent,#000 70%);mask-image:linear-gradient(90deg,transparent,#000 70%)}
+.hero::after{content:"";position:absolute;width:520px;height:520px;right:-120px;top:40px;border-radius:50%;background:radial-gradient(circle,rgba(150,90,255,.45),transparent 65%);pointer-events:none}
+.hero-grid{position:relative;z-index:1;display:grid;grid-template-columns:1.05fr .95fr;gap:30px;align-items:center}
+.badge{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);padding:8px 18px;border-radius:99px;font-size:.82rem;margin-bottom:24px}
+.badge b{width:8px;height:8px;border-radius:50%;background:#37e6a0;box-shadow:0 0 0 4px rgba(55,230,160,.25)}
+.hero h1{font-size:clamp(2.3rem,6vw,4rem);line-height:1.1;font-weight:700}
+.hero h1 b{display:block;font-weight:800}
+.lead{margin:22px 0 32px;font-size:1.06rem;color:#d9d4ff;max-width:490px}
+.cta{display:flex;gap:14px;flex-wrap:wrap}
+.social{margin-top:34px}
+.social small{display:block;font-size:.8rem;margin-bottom:12px;color:#c9c2ff}
+.social div{display:flex;gap:12px}
+.social a{width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.12);display:grid;place-items:center;font-size:1.15rem;transition:background .2s,transform .2s}
+.social a:hover{background:var(--brand2);transform:translateY(-3px)}
+.art{position:relative;max-width:520px;margin-left:auto;width:100%}
+.art>svg,.art>.real{width:100%;height:auto;display:block;filter:drop-shadow(0 30px 50px rgba(0,0,0,.4))}
+.real{display:none}
+.has-img>.real{display:block}
+.has-img>svg:first-of-type{display:none}
+.glass{position:absolute;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.22);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-radius:16px;box-shadow:0 14px 30px rgba(0,0,0,.28)}
+.code{top:4%;left:0;width:40%;padding:12px 14px;background:rgba(14,12,48,.85)}
+.code span{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:5px}
+.code i{display:block;height:6px;border-radius:4px;margin-top:8px}
+.chip{width:62px;height:62px;display:grid;place-items:center;font-weight:700;font-size:1.25rem;background:linear-gradient(135deg,#8d5bff,#c24bff);border:0;transform:rotate(8deg)}
+.c1{top:2%;right:6%}
+.c2{top:46%;right:0;transform:rotate(-8deg);font-size:1.6rem}
+.live{bottom:12%;left:0;padding:10px 16px;font-size:.8rem;font-weight:600;display:flex;gap:10px;align-items:center}
+.live b{width:9px;height:9px;border-radius:50%;background:#37e6a0}
+
+/* SECTIONS */
+.content{margin-top:-64px;position:relative}
+section.block{padding:84px 0 0}
+.sec-head{text-align:center;margin-bottom:40px}
+.sec-head h2{font-size:clamp(1.6rem,3.6vw,2.2rem);margin-top:12px;line-height:1.25}
+.sec-head p{color:var(--muted);max-width:560px;margin:10px auto 0;font-size:.96rem}
+.about{display:grid;grid-template-columns:.85fr 1.15fr;gap:40px;align-items:center;background:var(--card);padding:36px;border-radius:30px;box-shadow:var(--shadow)}
+.photo{position:relative;background:linear-gradient(160deg,#d6cbff,#a9cbff);border-radius:28px;aspect-ratio:1/1;display:grid;place-items:end center;overflow:hidden}
+.photo svg{width:92%;height:auto}
+.photo .real{width:100%;height:100%;object-fit:cover}
+.photo.has-img>.real{display:block}
+.photo.has-img>svg{display:none}
+.about h2{font-size:1.9rem;margin:12px 0 10px}
+.about p{color:var(--muted);font-size:.96rem}
+.facts{list-style:none;margin-top:20px;display:grid;gap:10px;font-size:.93rem}
+.facts li{display:flex;gap:12px;align-items:center}
+.facts .ico{color:var(--brand);font-size:1.1rem}
+.facts b{min-width:70px;font-weight:600}
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:26px}
+.stat{border-radius:var(--r);padding:20px 20px 18px;position:relative;overflow:hidden}
+.stat strong{display:block;font-size:2rem;line-height:1.15}
+.stat span{font-size:.85rem;color:var(--muted)}
+.stat .ico{position:absolute;right:16px;bottom:14px;font-size:2rem;opacity:.35}
+.s1{background:#ece8ff}.s1 strong,.s1 .ico{color:var(--brand)}
+.s2{background:#dff7ee}.s2 strong,.s2 .ico{color:#12856a}
+.s3{background:#ffeede}.s3 strong,.s3 .ico{color:#d4640c}
+.s4{background:#e1efff}.s4 strong,.s4 .ico{color:#2a6fe0}
+
+.services{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:16px}
+.svc{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:26px 14px 22px;text-align:center;box-shadow:var(--shadow);transition:transform .25s,border-color .25s}
+.svc:hover{transform:translateY(-5px);border-color:var(--brand)}
+.svc i{display:grid;place-items:center;width:58px;height:58px;margin:0 auto 14px;border-radius:18px;background:linear-gradient(135deg,#efeaff,#dfe9ff);font-style:normal;font-size:1.7rem}
+.svc h3{font-size:.95rem}
+.svc p{font-size:.8rem;color:var(--muted);margin-top:4px;line-height:1.5}
+
+.projects{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,310px),1fr));gap:24px}
+.proj{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:14px;box-shadow:var(--shadow);display:flex;flex-direction:column;transition:transform .25s,box-shadow .25s}
+.proj:hover{transform:translateY(-6px);box-shadow:0 20px 44px rgba(60,50,160,.18)}
+.shot{height:170px;border-radius:15px;padding:12px 14px;margin-bottom:16px;position:relative;overflow:hidden;color:#fff}
+.shot .dots{display:flex;gap:5px}
+.shot .dots i{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.55)}
+.shot .bar{display:block;height:9px;border-radius:5px;background:rgba(255,255,255,.28);margin-top:10px}
+.shot .w1{width:70%}.shot .w2{width:48%}.shot .w3{width:60%;background:rgba(255,255,255,.18)}
+.shot .em{position:absolute;right:14px;bottom:10px;width:84px;height:84px;border-radius:24px;background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.35);display:grid;place-items:center;font-size:2.6rem;transform:rotate(-6deg);box-shadow:0 12px 24px rgba(0,0,0,.2)}
+.proj h3{font-size:1.08rem;padding:0 6px}
+.proj p{color:var(--muted);font-size:.89rem;padding:5px 6px 14px;flex:1}
+.foot{display:flex;justify-content:space-between;align-items:center;padding:0 6px 4px}
+.go{width:40px;height:40px;border:1.5px solid var(--line);border-radius:11px;display:grid;place-items:center;color:var(--brand);transition:.2s}
+.proj:hover .go,.go:focus-visible{background:var(--brand);border-color:var(--brand);color:#fff}
+
+.steps{list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:20px;counter-reset:s}
+.step{background:var(--card);border-radius:var(--r);padding:26px;box-shadow:var(--shadow)}
+.step::before{counter-increment:s;content:counter(s);display:grid;place-items:center;width:42px;height:42px;border-radius:13px;background:linear-gradient(135deg,var(--brand),var(--brand2));color:#fff;font-weight:700;margin-bottom:14px}
+.step h3{font-size:1.02rem}
+.step p{font-size:.88rem;color:var(--muted);margin-top:4px}
+
+/* CONTACT */
+.contact{background:linear-gradient(125deg,#17136b,#5a2bd8 65%,#a63cff);color:#fff;border-radius:32px;padding:46px;display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;position:relative;overflow:hidden;box-shadow:0 24px 60px rgba(70,40,200,.35)}
+.contact::after{content:"";position:absolute;width:340px;height:340px;border-radius:50%;background:rgba(255,255,255,.07);right:-90px;top:-120px;pointer-events:none}
+.contact>*{position:relative;z-index:1}
+.contact h2{font-size:clamp(1.6rem,3.6vw,2.2rem);margin-bottom:10px;line-height:1.25}
+.contact p{color:#e3deff;margin-bottom:22px}
+.clist{list-style:none;display:grid;gap:12px}
+.clist a{display:flex;gap:12px;align-items:center;background:rgba(255,255,255,.12);padding:13px 18px;border-radius:14px;font-size:.94rem;transition:background .2s}
+.clist a:hover{background:rgba(255,255,255,.22)}
+form{background:#fff;color:var(--ink);border-radius:22px;padding:24px;display:grid;gap:14px;box-shadow:0 20px 40px rgba(0,0,0,.25)}
+form label{display:block;font-size:.8rem;font-weight:600;color:var(--muted);margin-bottom:4px}
+input,textarea,select{width:100%;border:1.5px solid var(--line);border-radius:12px;padding:12px 14px;background:#fafbff}
+textarea{resize:vertical;min-height:96px}
+input:focus,textarea:focus,select:focus{border-color:var(--brand);outline:0;box-shadow:0 0 0 4px rgba(91,75,255,.15)}
+form .btn{width:100%}
+.note{font-size:.8rem;color:var(--muted);min-height:1.3em}
+
+footer{margin-top:90px;background:var(--d1);color:#b9b8dd;padding:56px 0 26px;font-size:.9rem}
+.fgrid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:36px}
+footer h3{color:#fff;font-size:.95rem;margin-bottom:14px}
+footer ul{list-style:none;display:grid;gap:9px}
+footer a:hover{color:#fff}
+footer p{margin-top:12px;max-width:340px}
+.copy{border-top:1px solid rgba(255,255,255,.1);margin-top:36px;padding-top:20px;text-align:center;font-size:.82rem}
+
+@media(max-width:900px){
+  .menu,.nav .btn{display:none}
+  .burger{display:block}
+  .nav.open .menu{display:grid;position:absolute;top:74px;left:0;right:0;background:rgba(10,9,40,.97);padding:6px 22px 22px;gap:0}
+  .nav.open .menu a{display:block;padding:14px 0;font-size:1rem;border-bottom:1px solid rgba(255,255,255,.08)}
+  .hero{padding:110px 0 110px}
+  .hero-grid,.about,.contact,.fgrid{grid-template-columns:1fr}
+  .art{order:-1;max-width:380px;margin:0 auto}
+  .about{padding:24px}
+  .photo{max-width:340px;margin:0 auto;width:100%}
+  .contact{padding:30px 22px}
+}
+@media(max-width:480px){.code{width:46%}.chip{width:50px;height:50px}.stats{gap:10px}.stat{padding:16px 14px}.stat strong{font-size:1.6rem}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<a class="skip" href="#asosiy">Asosiy mazmunga o'tish</a>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <radialGradient id="skin" cx=".38" cy=".3" r=".85"><stop offset="0" stop-color="#ffe6cc"/><stop offset=".55" stop-color="#f7c9a0"/><stop offset="1" stop-color="#df9f72"/></radialGradient>
+    <linearGradient id="hood" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6a62ff"/><stop offset=".55" stop-color="#3d37e0"/><stop offset="1" stop-color="#231e9e"/></linearGradient>
+    <linearGradient id="hair" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5a3b2a"/><stop offset="1" stop-color="#1a0e09"/></linearGradient>
+    <radialGradient id="iris" cx=".5" cy=".35" r=".75"><stop offset="0" stop-color="#8a5a34"/><stop offset="1" stop-color="#22140b"/></radialGradient>
+    <linearGradient id="lap" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f1f3fb"/><stop offset="1" stop-color="#b9bfd8"/></linearGradient>
+  </defs>
+  <symbol id="i-send" viewBox="0 0 24 24"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4z"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></symbol>
+  <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></symbol>
+  <symbol id="i-folder" viewBox="0 0 24 24"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></symbol>
+  <symbol id="i-inf" viewBox="0 0 24 24"><path d="M6 16c5 0 7-8 12-8a4 4 0 0 1 0 8c-5 0-7-8-12-8a4 4 0 1 0 0 8"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24"><path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.200-6.8-5-4.900 6.900-1z"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></symbol>
+
+  <symbol id="av" viewBox="0 0 300 300">
+    <path d="M30 300c0-80 48-112 120-112s120 32 120 112z" fill="url(#hood)"/>
+    <path d="M38 300c4-60 34-92 80-104-24 22-34 58-30 104z" fill="#8a84ff" opacity=".28"/>
+    <path d="M222 300c-2-46-14-80-40-104 52 12 82 44 88 104z" fill="#14106e" opacity=".35"/>
+    <path d="M90 250c20 8 40 10 60 10M150 260c22 0 44-4 64-14" stroke="#1d1890" stroke-width="3" fill="none" opacity=".4" stroke-linecap="round"/>
+    <rect x="130" y="150" width="40" height="48" rx="16" fill="url(#skin)"/>
+    <ellipse cx="150" cy="176" rx="30" ry="14" fill="#c98a5f" opacity=".45"/>
+    <path d="M104 192c10 26 82 26 92 0l12 7c-14 40-102 40-116 0z" fill="#2a25ad"/>
+    <circle cx="93" cy="118" r="13" fill="url(#skin)"/><circle cx="207" cy="118" r="13" fill="url(#skin)"/>
+    <path d="M91 112q-6 6 0 12M209 112q6 6 0 12" stroke="#d58f66" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <ellipse cx="150" cy="108" rx="58" ry="63" fill="url(#skin)"/>
+    <path d="M100 150c20 26 80 26 100 0-4 22-24 38-50 38s-46-16-50-38z" fill="#d9966b" opacity=".28"/>
+    <path d="M88 114c-16-62 34-88 76-80 42 8 64 40 52 82-8-26-24-40-46-44-24 10-54 26-82 42z" fill="url(#hair)"/>
+    <path d="M98 76c12-30 58-42 88-20 24 16 26 36 28 44-22-32-64-36-116-24z" fill="#6a4630"/>
+    <path d="M122 48c14-10 36-10 50 0M104 64c10-8 22-12 34-14M178 50c12 4 22 12 28 24" stroke="#8a6040" stroke-width="3" fill="none" opacity=".7" stroke-linecap="round"/>
+    <path d="M112 101q13-9 26-2M162 99q13-7 26 2" stroke="#1a0e09" stroke-width="5.5" stroke-linecap="round" fill="none"/>
+    <ellipse cx="126" cy="117" rx="12" ry="9" fill="#fff"/><ellipse cx="174" cy="117" rx="12" ry="9" fill="#fff"/>
+    <circle cx="127" cy="117" r="7.5" fill="url(#iris)"/><circle cx="173" cy="117" r="7.5" fill="url(#iris)"/>
+    <circle cx="127" cy="117" r="3.6" fill="#0b0604"/><circle cx="173" cy="117" r="3.6" fill="#0b0604"/>
+    <circle cx="130" cy="113.5" r="2.8" fill="#fff"/><circle cx="176" cy="113.5" r="2.8" fill="#fff"/>
+    <path d="M113 114q13-9 25 0M161 114q13-9 25 0" stroke="#3a2418" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <path d="M148 124c-3 8-4 12 2 14 4 1 7-1 8-3" stroke="#c98a5f" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <ellipse cx="108" cy="140" rx="10" ry="6.5" fill="#f48f84" opacity=".5"/><ellipse cx="192" cy="140" rx="10" ry="6.5" fill="#f48f84" opacity=".5"/>
+    <path d="M124 146c10 24 42 24 52 0z" fill="#7d2e22"/>
+    <path d="M127 146h46c-2 6-10 9-23 9s-21-3-23-9z" fill="#fff"/>
+    <path d="M118 192v36M182 192v36" stroke="#e4e6ff" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="118" cy="230" r="5.5" fill="#e4e6ff"/><circle cx="182" cy="230" r="5.5" fill="#e4e6ff"/>
+  </symbol>
+</svg>
+
+<header class="nav" id="nav">
+  <div class="wrap">
+    <a href="#top" class="logo" aria-label="Jasurbek Turaev — bosh sahifa"><i>JT</i>Jasurbek Turaev</a>
+    <ul class="menu" id="menu">
+      <li><a href="#about">Men haqimda</a></li>
+      <li><a href="#xizmatlar">Xizmatlar</a></li>
+      <li><a href="#loyihalar">Loyihalar</a></li>
+      <li><a href="#jarayon">Jarayon</a></li>
+      <li><a href="#aloqa">Aloqa</a></li>
+    </ul>
+    <a class="btn btn-primary" href="https://t.me/Asoschi_JT" target="_blank" rel="noopener"><svg class="ico" aria-hidden="true"><use href="#i-send"/></svg>Bog'lanish</a>
+    <button class="burger" id="burger" type="button" aria-label="Menyuni ochish" aria-expanded="false" aria-controls="menu">☰</button>
+  </div>
+</header>
+
+<main id="asosiy">
+  <section class="hero" id="top">
+    <div class="wrap hero-grid">
+      <div>
+        <span class="badge"><b aria-hidden="true"></b>Telegram bot va mini app yaratuvchi</span>
+        <h1>Salom, men <b class="grad">Jasurbek Turaev</b></h1>
+        <p class="lead">Biznesingiz uchun Telegram botlar, mini app va veb-saytlar yarataman. G'oyangizni ishlaydigan, foydalanuvchilar yoqtiradigan mahsulotga aylantiraman.</p>
+        <div class="cta">
+          <a class="btn btn-primary" href="#loyihalar">Loyihalarni ko'rish<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+          <a class="btn btn-ghost" href="https://t.me/Asoschi_JT" target="_blank" rel="noopener"><svg class="ico" aria-hidden="true"><use href="#i-send"/></svg>Menga yozish</a>
+        </div>
+        <div class="social">
+          <small>Men bilan bog'laning</small>
+          <div>
+            <a href="https://t.me/Asoschi_JT" target="_blank" rel="noopener" aria-label="Shaxsiy Telegram: @Asoschi_JT"><svg class="ico" aria-hidden="true"><use href="#i-user"/></svg></a>
+            <a href="https://t.me/digital_memory_uz" target="_blank" rel="noopener" aria-label="Digital Memory Telegram kanali"><svg class="ico" aria-hidden="true"><use href="#i-send"/></svg></a>
+            <a href="https://jasurbekturaev.com" aria-label="Veb-sayt"><svg class="ico" aria-hidden="true"><use href="#i-globe"/></svg></a>
+          </div>
+        </div>
+      </div>
+
+      <div class="art" id="heroArt">
+        <img class="real" src="assets/hero.png" alt="Jasurbek Turaev" decoding="async">
+        <svg viewBox="0 0 480 440" role="img" aria-label="Noutbuk oldida ishlayotgan dasturchi">
+          <ellipse cx="240" cy="418" rx="210" ry="16" fill="rgba(0,0,0,.28)"/>
+          <path d="M10 346h460l-20 22H30z" fill="#b87a4a"/><rect x="30" y="368" width="420" height="40" rx="6" fill="#8d5733"/>
+          <use href="#av" x="95" y="30" width="290" height="290"/>
+          <path d="M118 262h244l22 84H96z" fill="url(#lap)"/>
+          <path d="M118 262h244l4 12H114z" fill="#e8eaf6"/>
+          <circle cx="240" cy="304" r="12" fill="#fff"/>
+          <path d="M80 346h320l-8 10H88z" fill="#aab0cc"/>
+          <ellipse cx="146" cy="268" rx="20" ry="15" fill="#fad7b3"/><ellipse cx="334" cy="268" rx="20" ry="15" fill="#fad7b3"/>
+          <path d="M32 290c-10-30 6-52 24-56 4 22-4 42-24 56zM60 300c-2-34 16-54 36-56-2 24-12 44-36 56zM44 300c10-26 30-34 44-30-8 18-22 30-44 30z" fill="#35b36b"/>
+          <path d="M24 296h76l-8 54H32z" fill="#f1ece6"/><rect x="22" y="290" width="80" height="12" rx="6" fill="#e0d9cf"/>
+          <rect x="372" y="318" width="86" height="28" rx="4" fill="#e8523f"/><rect x="368" y="292" width="92" height="26" rx="4" fill="#f2a533"/><rect x="376" y="268" width="80" height="24" rx="4" fill="#3b7bf0"/>
+          <g font-size="12" font-weight="700" fill="#fff" text-anchor="middle" font-family="Poppins,sans-serif"><text x="415" y="337">BOT</text><text x="414" y="310">API</text><text x="416" y="285">APP</text></g>
+          <rect x="316" y="314" width="40" height="34" rx="7" fill="#26264a"/><path d="M356 322c14 0 14 18 0 18" fill="none" stroke="#26264a" stroke-width="5"/>
+          <text x="336" y="337" font-size="13" font-weight="700" fill="#b9a6ff" text-anchor="middle" font-family="Poppins,sans-serif">&lt;/&gt;</text>
+        </svg>
+        <div class="glass code" aria-hidden="true"><span style="background:#ff5f57"></span><span style="background:#febc2e"></span><span style="background:#28c840"></span><i style="width:80%;background:#a78bfa"></i><i style="width:55%;background:#60a5fa"></i><i style="width:68%;background:#34d399"></i><i style="width:40%;background:#f9a8d4"></i></div>
+        <div class="glass chip c1" aria-hidden="true">{ }</div>
+        <div class="glass chip c2" aria-hidden="true">🤖</div>
+        <div class="glass live"><b aria-hidden="true"></b>Botlarim 24/7 ishlaydi</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="wrap content">
+
+    <section id="about" aria-labelledby="h-about">
+      <div class="about">
+        <div class="photo" id="aboutPhoto">
+          <img class="real" src="assets/about.png" alt="Jasurbek Turaev" decoding="async" loading="lazy">
+          <svg viewBox="0 0 340 300" aria-hidden="true"><use href="#av" x="20" y="0" width="300" height="300"/><path d="M282 214c18-30 30-56 24-82" stroke="#3d37e0" stroke-width="30" stroke-linecap="round" fill="none"/><circle cx="306" cy="124" r="19" fill="#fad7b3"/></svg>
+        </div>
+        <div>
+          <span class="tag">Men haqimda</span>
+          <h2 id="h-about">Keling, tanishamiz!</h2>
+          <p>Men Telegram uchun botlar va mini app'lar yarataman. Maqsadim — biznesingiz mijozlarga tezroq va qulayroq xizmat ko'rsatishi. Barcha loyihalarim o'zimning, hozir ham foydalanuvchilar ishlatayotgan mahsulotlar.</p>
+          <ul class="facts">
+            <li><svg class="ico" aria-hidden="true"><use href="#i-user"/></svg><b>Ism:</b>Jasurbek Turaev</li>
+            <li><svg class="ico" aria-hidden="true"><use href="#i-star"/></svg><b>Kasb:</b>Telegram bot va mini app yaratuvchi</li>
+            <li><svg class="ico" aria-hidden="true"><use href="#i-globe"/></svg><b>Sayt:</b>JasurbekTuraev.com</li>
+            <li><svg class="ico" aria-hidden="true"><use href="#i-send"/></svg><b>Aloqa:</b><a href="https://t.me/Asoschi_JT" target="_blank" rel="noopener" style="color:var(--brand);font-weight:600">@Asoschi_JT</a></li>
+          </ul>
+          <div class="stats">
+            <div class="stat s1"><strong>6+</strong><span>Tayyor loyiha</span><svg class="ico" aria-hidden="true"><use href="#i-folder"/></svg></div>
+            <div class="stat s2"><strong>24/7</strong><span>Ishlaydigan botlar</span><svg class="ico" aria-hidden="true"><use href="#i-clock"/></svg></div>
+            <div class="stat s3"><strong>∞</strong><span>Cheksiz xizmat turlari</span><svg class="ico" aria-hidden="true"><use href="#i-inf"/></svg></div>
+            <div class="stat s4"><strong>100%</strong><span>Individual yondashuv</span><svg class="ico" aria-hidden="true"><use href="#i-star"/></svg></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="block" id="xizmatlar" aria-labelledby="h-xiz">
+      <div class="sec-head">
+        <span class="tag">Xizmatlar</span>
+        <h2 id="h-xiz">Biznesingiz uchun nima yarataman?</h2>
+        <p>Xizmat turlarim cheklanmagan. G'oyangizni ayting, men uni Telegramda ishga tushiraman.</p>
+      </div>
+      <div class="services">
+        <div class="svc"><i aria-hidden="true">🍽️</i><h3>Restoran va kafe</h3><p>Menyu, buyurtma va yetkazib berish boti</p></div>
+        <div class="svc"><i aria-hidden="true">🛒</i><h3>Onlayn do'kon</h3><p>Katalog, savat va to'lov Telegram ichida</p></div>
+        <div class="svc"><i aria-hidden="true">🎓</i><h3>Yopiq darslar</h3><p>Kurslar uchun obuna va kirish nazorati</p></div>
+        <div class="svc"><i aria-hidden="true">🌐</i><h3>Veb-sayt</h3><p>Zamonaviy, telefonga moslangan saytlar</p></div>
+        <div class="svc"><i aria-hidden="true">📱</i><h3>Mini app</h3><p>Telegram ichida ishlaydigan ilovalar</p></div>
+        <div class="svc"><i aria-hidden="true">🤖</i><h3>Maxsus bot va AI</h3><p>Sizning vazifangizga moslab yoziladi</p></div>
+      </div>
+    </section>
+
+    <section class="block" id="loyihalar" aria-labelledby="h-loy">
+      <div class="sec-head">
+        <span class="tag">Loyihalar</span>
+        <h2 id="h-loy">Mening tayyor loyihalarim</h2>
+        <p>Hammasini hoziroq Telegramda sinab ko'rishingiz mumkin.</p>
+      </div>
+      <div class="projects">
+        <article class="proj">
+          <div class="shot" style="background:linear-gradient(135deg,#1c3a96,#3ba3ff)" aria-hidden="true"><div class="dots"><i></i><i></i><i></i></div><span class="bar w1"></span><span class="bar w2"></span><span class="bar w3"></span><div class="em">📰</div></div>
+          <h3>Digital Memory UZ</h3>
+          <p>Texnologik yangiliklar va startaplar haqida Telegram kanal.</p>
+          <div class="foot"><span class="tag">Kanal</span><a class="go" href="https://t.me/digital_memory_uz" target="_blank" rel="noopener" aria-label="Digital Memory UZ ni Telegramda ochish"><svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a></div>
+        </article>
+        <article class="proj">
+          <div class="shot" style="background:linear-gradient(135deg,#0d6b63,#34d399)" aria-hidden="true"><div class="dots"><i></i><i></i><i></i></div><span class="bar w1"></span><span class="bar w2"></span><span class="bar w3"></span><div class="em">🔒</div></div>
+          <h3>JT VPN</h3>
+          <p>Telegram orqali ishlaydigan VPN xizmati.</p>
+          <div class="foot"><span class="tag">Bot</span><a class="go" href="https://t.me/JT_VPN_BOT" target="_blank" rel="noopener" aria-label="JT VPN ni Telegramda ochish"><svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a></div>
+        </article>
+        <article class="proj">
+          <div class="shot" style="background:linear-gradient(135deg,#7c1d6f,#f472b6)" aria-hidden="true"><div class="dots"><i></i><i></i><i></i></div><span class="bar w1"></span><span class="bar w2"></span><span class="bar w3"></span><div class="em">🎬</div></div>
+          <h3>Kinora UZ</h3>
+          <p>Kodli kinolar boti. Kodni yuboring, kinoni oling.</p>
+          <div class="foot"><span class="tag">Bot</span><a class="go" href="https://t.me/KINORA_UZ_BOT" target="_blank" rel="noopener" aria-label="Kinora UZ ni Telegramda ochish"><svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a></div>
+        </article>
+        <article class="proj">
+          <div class="shot" style="background:linear-gradient(135deg,#5b4bff,#b23cff)" aria-hidden="true"><div class="dots"><i></i><i></i><i></i></div><span class="bar w1"></span><span class="bar w2"></span><span class="bar w3"></span><div class="em">🧩</div></div>
+          <h3>Minni Yordamchi</h3>
+          <p>Kundalik ishlar uchun Telegram ichidagi mini yordamchi ilova.</p>
+          <div class="foot"><span class="tag">Mini app</span><a class="go" href="https://t.me/Minni_Yordamchi_bot" target="_blank" rel="noopener" aria-label="Minni Yordamchi ni Telegramda ochish"><svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a></div>
+        </article>
+        <article class="proj">
+          <div class="shot" style="background:linear-gradient(135deg,#0a0928,#5a32f0)" aria-hidden="true"><div class="dots"><i></i><i></i><i></i></div><span class="bar w1"></span><span class="bar w2"></span><span class="bar w3"></span><div class="em">✨</div></div>
+          <h3>Milliy AI</h3>
+          <p>Savollarga javob beradigan sun'iy intellekt yordamchi.</p>
+          <div class="foot"><span class="tag">AI bot</span><a class="go" href="https://t.me/Milliy_Ai_uzbot" target="_blank" rel="noopener" aria-label="Milliy AI ni Telegramda ochish"><svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a></div>
+        </article>
+        <article class="proj">
+          <div class="shot" style="background:linear-gradient(135deg,#9a3412,#fb923c)" aria-hidden="true"><div class="dots"><i></i><i></i><i></i></div><span class="bar w1"></span><span class="bar w2"></span><span class="bar w3"></span><div class="em">🚗</div></div>
+          <h3>Avto Savdo</h3>
+          <p>Avtomobil sotish va sotib olish uchun mini app.</p>
+          <div class="foot"><span class="tag">Mini app</span><a class="go" href="https://t.me/Avto_Savdo_Uzbot" target="_blank" rel="noopener" aria-label="Avto Savdo ni Telegramda ochish"><svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="block" id="jarayon" aria-labelledby="h-jar">
+      <div class="sec-head">
+        <span class="tag">Jarayon</span>
+        <h2 id="h-jar">Qanday ishlaymiz?</h2>
+        <p>Oddiy va shaffof: g'oyadan ishga tushirishgacha to'rt qadam.</p>
+      </div>
+      <ol class="steps">
+        <li class="step"><h3>G'oyani muhokama qilamiz</h3><p>Telegramda yozasiz, biznesingiz va maqsadingizni tushuntirasiz.</p></li>
+        <li class="step"><h3>Reja va narx</h3><p>Imkoniyatlar, muddat va narxni oldindan kelishib olamiz.</p></li>
+        <li class="step"><h3>Ishlab chiqish</h3><p>Bot yoki ilovani yarataman, jarayonni sizga ko'rsataman.</p></li>
+        <li class="step"><h3>Ishga tushirish</h3><p>Sinovdan o'tkazib, ishga tushiraman va yordam beraman.</p></li>
+      </ol>
+    </section>
+
+    <section class="block" id="aloqa" aria-labelledby="h-alo">
+      <div class="contact">
+        <div>
+          <h2 id="h-alo">Loyihangiz bormi? Birga yaratamiz!</h2>
+          <p>Restoran, kafe, onlayn do'kon, yopiq darslar yoki veb-sayt. Xabar qoldiring, men Telegramda javob beraman.</p>
+          <ul class="clist">
+            <li><a href="https://t.me/Asoschi_JT" target="_blank" rel="noopener"><svg class="ico" aria-hidden="true"><use href="#i-send"/></svg>@Asoschi_JT</a></li>
+            <li><a href="https://t.me/digital_memory_uz" target="_blank" rel="noopener"><svg class="ico" aria-hidden="true"><use href="#i-star"/></svg>Digital Memory UZ</a></li>
+            <li><a href="https://jasurbekturaev.com"><svg class="ico" aria-hidden="true"><use href="#i-globe"/></svg>JasurbekTuraev.com</a></li>
+          </ul>
+        </div>
+        <form id="form" novalidate>
+          <div><label for="fn">Ismingiz</label><input id="fn" name="name" autocomplete="name" required placeholder="Masalan: Ali"></div>
+          <div><label for="ft">Xizmat turi</label>
+            <select id="ft"><option>Telegram bot</option><option>Mini app</option><option>Veb-sayt</option><option>Restoran / kafe</option><option>Onlayn do'kon</option><option>Yopiq darslar</option><option>Boshqa</option></select></div>
+          <div><label for="fm">Xabaringiz</label><textarea id="fm" rows="4" placeholder="Loyihangiz haqida qisqacha yozing"></textarea></div>
+          <button class="btn btn-primary" type="submit"><svg class="ico" aria-hidden="true"><use href="#i-send"/></svg>Telegramda yuborish</button>
+          <p class="note" id="note" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+    </section>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="fgrid">
+      <div>
+        <a href="#top" class="logo" style="color:#fff"><i>JT</i>Jasurbek Turaev</a>
+        <p>Telegram botlar, mini app va veb-saytlar. Biznesingizni Telegramga olib chiqaman.</p>
+      </div>
+      <nav aria-label="Bo'limlar"><h3>Bo'limlar</h3><ul><li><a href="#about">Men haqimda</a></li><li><a href="#xizmatlar">Xizmatlar</a></li><li><a href="#loyihalar">Loyihalar</a></li><li><a href="#aloqa">Aloqa</a></li></ul></nav>
+      <nav aria-label="Loyihalarim"><h3>Loyihalarim</h3><ul>
+        <li><a href="https://t.me/digital_memory_uz" target="_blank" rel="noopener">Digital Memory UZ</a></li>
+        <li><a href="https://t.me/JT_VPN_BOT" target="_blank" rel="noopener">JT VPN</a></li>
+        <li><a href="https://t.me/KINORA_UZ_BOT" target="_blank" rel="noopener">Kinora UZ</a></li>
+        <li><a href="https://t.me/Milliy_Ai_uzbot" target="_blank" rel="noopener">Milliy AI</a></li></ul></nav>
+    </div>
+    <div class="copy">© <span id="year">2026</span> Jasurbek Turaev. Barcha huquqlar himoyalangan.</div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  'use strict';
+  var $ = function (id) { return document.getElementById(id); };
+  var nav = $('nav'), burger = $('burger');
+
+  // Haqiqiy rasm yuklansa, chizilgan personaj o'rniga ko'rsatiladi
+  [['heroArt'], ['aboutPhoto']].forEach(function (p) {
+    var box = $(p[0]), img = box && box.querySelector('.real');
+    if (!img) return;
+    var ok = function () { if (img.naturalWidth > 0) box.classList.add('has-img'); };
+    if (img.complete) ok(); else img.addEventListener('load', ok);
+  });
+
+  // Menyu: sahifa aylanganda fon, mobil ochish/yopish
+  var onScroll = function () { nav.classList.toggle('sc', window.scrollY > 20); };
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+  var setOpen = function (open) {
+    nav.classList.toggle('open', open);
+    burger.setAttribute('aria-expanded', String(open));
+    burger.setAttribute('aria-label', open ? 'Menyuni yopish' : 'Menyuni ochish');
+    burger.textContent = open ? '✕' : '☰';
+  };
+  burger.addEventListener('click', function () { setOpen(!nav.classList.contains('open')); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') setOpen(false); });
+  var links = Array.prototype.slice.call(document.querySelectorAll('#menu a'));
+  links.forEach(function (a) { a.addEventListener('click', function () { setOpen(false); }); });
+
+  // Faol bo'limni menyuda belgilash
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (!en.isIntersecting) return;
+        links.forEach(function (l) { l.classList.toggle('act', l.getAttribute('href') === '#' + en.target.id); });
+      });
+    }, { rootMargin: '-45% 0px -50% 0px' });
+    links.forEach(function (l) { var s = $(l.getAttribute('href').slice(1)); if (s) io.observe(s); });
+  }
+
+  // Aloqa formasi: matnni tayyorlab, Telegramda ochadi
+  var form = $('form'), note = $('note');
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var name = $('fn').value.trim();
+    if (!name) { note.textContent = 'Iltimos, ismingizni yozing.'; $('fn').focus(); return; }
+    var text = 'Salom, men ' + name + '.\nXizmat: ' + $('ft').value + '.' + ($('fm').value.trim() ? '\n' + $('fm').value.trim() : '');
+    if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText(text).catch(function () {}); }
+    window.open('https://t.me/Asoschi_JT?text=' + encodeURIComponent(text), '_blank', 'noopener');
+    note.textContent = 'Telegram ochildi. Matn avtomatik chiqmasa, u nusxalangan: chatga joylashtiring.';
+  });
+
+  $('year').textContent = new Date().getFullYear();
+})();
+</script>
+</body>
+</html>
